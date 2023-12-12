@@ -5,7 +5,7 @@
   "main": "package.json",
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "sanity dev",
+    "dev": "sanity dev --port 1333",
     "start": "sanity start",
     "build": "sanity build",
     "deploy": "sanity deploy",
@@ -19,7 +19,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
-    "sanity": "^3.21.0",
+    "sanity": "^3.21.1",
     "styled-components": "^6.0.7"
   },
   "devDependencies": {

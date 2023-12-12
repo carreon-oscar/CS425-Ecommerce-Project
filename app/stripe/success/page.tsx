@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function StripeSuccess() {
   return (
     <div className="h-screen">
-      <div className="mt-32 md:max-w-[50vw] mx-auto">
+      <div className="mt-32 max-w-[50vw] mx-auto">
         <CheckCheck className="text-green-600 w-16 h-16 mx-auto my-6" />
         <div className="text-center text-2xl stone-800 font-bold">
           <h3>Payment Complete!</h3>

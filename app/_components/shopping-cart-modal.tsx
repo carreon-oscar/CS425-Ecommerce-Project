@@ -40,7 +40,7 @@ export default function ShoppingCartModal() {
     }
   }
 
-  console.log(cartDetails);
+  // console.log(cartDetails);
 
   return (
     <Sheet open={shouldDisplayCart} onOpenChange={() => handleCartClick()}>

@@ -2,15 +2,7 @@
 
 import { useShoppingCart } from 'use-shopping-cart';
 import { urlFor } from '../lib/santiy';
-
-export interface ProductCart {
-  name: string;
-  description: string;
-  price: number;
-  currency: string;
-  image: any;
-  price_id: string;
-}
+import { ProductStripe } from '../interface';
 
 export default function AddToBag({
   name,
@@ -19,9 +11,10 @@ export default function AddToBag({
   currency,
   image,
   price_id,
-}: ProductCart) {
+}: ProductStripe) {
   const { addItem, handleCartClick } = useShoppingCart();
 
+  // product must follow the shape specified by useshoppingcart for addItem()
   const product = {
     name: name,
     description: description,
@@ -31,12 +24,14 @@ export default function AddToBag({
     price_id: price_id,
   };
 
+  function handleBagClick() {
+    addItem(product);
+    handleCartClick();
+  }
+
   return (
     <button
-      onClick={() => {
-        addItem(product);
-        handleCartClick();
-      }}
+      onClick={() => handleBagClick()}
       className="bg-stone-800 text-slate-100 rounded-2xl py-2 mt-2 w-full hover:opacity-75 transition-opacity mb-2"
     >
       Add to Bag

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Product } from '../interface';
 import { client } from '../lib/santiy';
 
+// Framer Motion variants (not in use)
 const whileInViewVariants = {
   hidden: {
     opacity: 0,
@@ -21,6 +22,7 @@ const whileInViewVariants = {
 };
 
 async function getData() {
+  // get the 4 most most recently added products
   const query = `*[_type == "product"][0...4] | order(_createdAt desc){
     _id,
       price,
@@ -38,7 +40,7 @@ async function getData() {
 export default async function FeaturedGrid() {
   const data: Product[] = await getData();
   return (
-    <div className="mx-auto max-w-2xl lg:max-w-7xl grid grid-cols-1 gap-x-2 gap-y-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-4">
+    <div className="mx-auto max-w-2xl lg:max-w-7xl grid grid-cols-1 gap-x-2 gap-y-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-4 mb-12">
       {data.map((product) => (
         <div key={product._id} className="group relative">
           <Link href={`/product/${product.slug}`}>

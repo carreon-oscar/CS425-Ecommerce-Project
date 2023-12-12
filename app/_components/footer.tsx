@@ -4,7 +4,7 @@ import { GrBitcoin } from 'react-icons/gr';
 
 export default function Footer() {
   return (
-    <div className="flex justify-between items-center bg-stone-700 p-8 mt-12">
+    <div className="flex justify-between items-center bg-stone-700 p-8">
       <div className="text-sm text-gray-300">
         &#169;2023 Agent, Inc. All Rights Reserved.
       </div>
