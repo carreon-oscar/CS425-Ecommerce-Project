@@ -2,6 +2,7 @@ import { FaEthereum, FaStripe } from 'react-icons/fa';
 import { FaPaypal } from 'react-icons/fa6';
 import { GrBitcoin } from 'react-icons/gr';
 
+//all icons are provided by react icons library
 export default function Footer() {
   return (
     <div className="flex justify-between items-center bg-stone-700 p-8">

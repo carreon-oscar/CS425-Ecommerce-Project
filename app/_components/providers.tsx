@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import { CartProvider as CProvider } from 'use-shopping-cart';
 
+//setup provided by use shopping cart
 export default function CartProvider({ children }: { children: ReactNode }) {
   return (
     <CProvider

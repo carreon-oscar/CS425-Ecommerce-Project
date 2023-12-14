@@ -28,6 +28,7 @@ export default function ShoppingCartModal() {
     redirectToCheckout: any;
   } = useShoppingCart();
 
+  //Handler function provided by use-shopping-cart
   async function handleCheckoutClick(event: any) {
     event.preventDefault();
     try {
@@ -42,6 +43,7 @@ export default function ShoppingCartModal() {
 
   // console.log(cartDetails);
 
+  //sheet modal provided by shadcn component library
   return (
     <Sheet open={shouldDisplayCart} onOpenChange={() => handleCartClick()}>
       <SheetContent className="sm:max-w-lg w-[90vw]">

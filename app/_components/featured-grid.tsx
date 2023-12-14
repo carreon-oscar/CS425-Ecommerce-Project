@@ -82,6 +82,7 @@ export default async function FeaturedGrid() {
         ))
         .reverse()}
     </div>
+    //framer motion code (not in use)
     // <motion.div
     //   initial="hidden"
     //   whileInView="show"
