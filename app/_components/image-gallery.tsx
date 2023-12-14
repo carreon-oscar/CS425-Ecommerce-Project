@@ -8,7 +8,7 @@ import { ImageList } from '../interface';
 export default function ImageGallery({ images }: ImageList) {
   const [mainImage, setMainImage] = useState(images[0]);
 
-  function handleImageClick(image: any) {
+  function handleImageHover(image: any) {
     setMainImage(image);
   }
 
@@ -26,7 +26,7 @@ export default function ImageGallery({ images }: ImageList) {
               height={200}
               alt="Alternate Product Image"
               className="h-full w-full object-cover object-center cursor-pointer hover:opacity-75"
-              onMouseOver={() => handleImageClick(image)}
+              onMouseOver={() => handleImageHover(image)}
             />
           </div>
         ))}
