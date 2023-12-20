@@ -4,7 +4,6 @@ import { CompleteProduct } from '@/app/interface';
 import { client } from '@/app/lib/santiy';
 
 async function getData(slug: string) {
-  //query the a product with the given slug (slug is passed into the url)
   const query = `*[_type == "product" && slug.current == "${slug}"][0] {
     _id,
     images,
@@ -64,7 +63,6 @@ export default async function ProductPage({
                   L
                 </div>
               </div>
-              {/* Pass product information for the given product page to update the cart state*/}
               <AddToBag
                 currency="USD"
                 description={data.description}

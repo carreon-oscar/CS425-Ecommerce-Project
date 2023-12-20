@@ -1,5 +1,3 @@
-// 'use client';
-
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -80,32 +78,5 @@ export default async function FeaturedGrid() {
         ))
         .reverse()}
     </div>
-    // <motion.div
-    //   initial="hidden"
-    //   whileInView="show"
-    //   viewport={{
-    //     once: true,
-    //   }}
-    //   variants={whileInViewVariants}
-    //   className="mx-auto max-w-2xl lg:max-w-7xl grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
-    // >
-    //   {data.map((product) => (
-    //     <motion.div
-    //       variants={whileInViewVariants}
-    //       key={product._id}
-    //       className="group relative"
-    //     >
-    //       <div className="w-full group-hover:opacity-75">
-    //         <Image
-    //           src={product.imageUrl}
-    //           alt="Product Image"
-    //           className="w-full h-full"
-    //           width={300}
-    //           height={300}
-    //         />
-    //       </div>
-    //     </motion.div>
-    //   ))}
-    // </motion.div>
   );
 }

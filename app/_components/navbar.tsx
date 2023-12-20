@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { IoBagOutline, IoSearchOutline } from 'react-icons/io5';
 import { useShoppingCart } from 'use-shopping-cart';
 
-// Framer Motion Variants (currently not used)
 const borderVariants = {
   initial: {
     borderBottomWidth: '0%',
@@ -19,7 +18,6 @@ const borderVariants = {
   },
 };
 
-//all icons are provided by react icons library
 export default function Navbar() {
   const [isDropDownVisible, setisDropDownVisible] = useState(false);
   const { handleCartClick } = useShoppingCart();
@@ -69,16 +67,16 @@ export default function Navbar() {
           <div className="max-w-5xl mx-auto">
             <div className="flex justify-between w-[50%] mx-auto">
               <div className="flex flex-col">
-                <div>Category</div>
-                <div>Category</div>
+                <Link href="/men/hoodies">Men Hoodies</Link>
+                <Link href="/men/shoes">Men Shoes</Link>
               </div>
               <div className="flex flex-col">
-                <div>Category</div>
-                <div>Category</div>
+                <Link href="/women/hoodies">Women Hoodies</Link>
+                <Link href="/women/shoes">Women Shoes</Link>
               </div>
               <div className="flex flex-col">
-                <div>Category</div>
-                <div>Category</div>
+                <div>Hello1</div>
+                <div>Hello2</div>
               </div>
             </div>
           </div>

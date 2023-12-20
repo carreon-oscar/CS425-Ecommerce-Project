@@ -3,12 +3,15 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { urlFor } from '../lib/santiy';
-import { ImageList } from '../interface';
+
+interface ImageList {
+  images: any;
+}
 
 export default function ImageGallery({ images }: ImageList) {
   const [mainImage, setMainImage] = useState(images[0]);
 
-  function handleImageHover(image: any) {
+  function handleImageClick(image: any) {
     setMainImage(image);
   }
 
@@ -26,7 +29,7 @@ export default function ImageGallery({ images }: ImageList) {
               height={200}
               alt="Alternate Product Image"
               className="h-full w-full object-cover object-center cursor-pointer hover:opacity-75"
-              onMouseOver={() => handleImageHover(image)}
+              onMouseOver={() => handleImageClick(image)}
             />
           </div>
         ))}
@@ -41,5 +44,27 @@ export default function ImageGallery({ images }: ImageList) {
         />
       </div>
     </div>
+    // <div className="grid gap-y-4 lg:grid-cols-5">
+    //   <div className="flex gap-4 lg:flex-col items-end">
+    //     {images.map((image: any, idx: number) => (
+    //       <div
+    //         key={idx}
+    //         className="h-[60px] w-[60px] overflow-hidden rounded-lg"
+    //       >
+    //         <Image
+    //           src={urlFor(image).url()}
+    //           width={200}
+    //           height={200}
+    //           alt="Alternate Product Image"
+    //           className="h-full w-full object-cover object-center cursor-pointer"
+    //           onMouseOver={() => handleImageClick(image)}
+    //         />
+    //       </div>
+    //     ))}
+    //   </div>
+    //   <div className="relative overflow-hidden rounded-lg lg:col-span-4">
+
+    //   </div>
+    // </div>
   );
 }

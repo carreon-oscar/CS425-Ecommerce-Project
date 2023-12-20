@@ -2,17 +2,9 @@
 
 import { useShoppingCart } from 'use-shopping-cart';
 import { urlFor } from '../lib/santiy';
+import { ProductCart } from './add-to-bag';
 
-export interface ProductCart {
-  name: string;
-  description: string;
-  price: number;
-  currency: string;
-  image: any;
-  price_id: string;
-}
-
-export default function AddToBag({
+export default function CheckoutNow({
   name,
   description,
   price,
@@ -20,7 +12,11 @@ export default function AddToBag({
   image,
   price_id,
 }: ProductCart) {
-  const { addItem, handleCartClick } = useShoppingCart();
+  const { checkoutSingleItem } = useShoppingCart();
+
+  function buyNow(priceId: string) {
+    checkoutSingleItem(priceId);
+  }
 
   const product = {
     name: name,
@@ -34,8 +30,7 @@ export default function AddToBag({
   return (
     <button
       onClick={() => {
-        addItem(product);
-        handleCartClick();
+        buyNow(product.price_id);
       }}
       className="bg-stone-800 text-slate-100 rounded-2xl py-2 mt-2 w-full hover:opacity-75 transition-opacity mb-2"
     >
