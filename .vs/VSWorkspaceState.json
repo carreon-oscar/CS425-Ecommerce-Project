@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\lib",
+    "\\app\\_components",
+    "\\components",
+    "\\components\\ui",
+    "\\lib",
+    "\\public",
+    "\\sanity"
+  ],
+  "SelectedNode": "\\app\\lib\\santiy.ts",
+  "PreviewInSolutionExplorer": false
+}
