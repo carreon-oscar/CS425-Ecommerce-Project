@@ -40,7 +40,7 @@ export default function ShoppingCartModal() {
     }
   }
 
-  // console.log(cartDetails);
+  // console.log(Object.values(cartDetails));
 
   return (
     <Sheet open={shouldDisplayCart} onOpenChange={() => handleCartClick()}>
@@ -57,7 +57,8 @@ export default function ShoppingCartModal() {
           <div className="h-full flex flex-col justify-between">
             <div className="mt-8 flex-1 overflow-y-auto">
               <ul className="-my-6 divide-y divide-gray-200">
-                {Object.values(cartDetails).map((product) => (
+                {/* shape of product object defined in addItem() documentation */}
+                {Object.values(cartDetails).map((product: any) => (
                   <li key={product.id} className="flex py-6">
                     <div className="h-24 w-24 overflow-hidden rounded-md border border-gray-200">
                       <Image
