@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* base styles from shadcn so shadcn components are styled correctly */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -75,6 +76,7 @@
   }
 }
 
+/* link underline animation styles for navbar from tailwindcomponents.com */
 .link-underline {
   border-bottom-width: 0;
   background-image: linear-gradient(transparent, transparent),

@@ -64,7 +64,7 @@ export default async function ProductPage({
                   L
                 </div>
               </div>
-              {/* Pass product information for the given product page  */}
+              {/* Pass product information for the given product page to update the cart state*/}
               <AddToBag
                 currency="USD"
                 description={data.description}

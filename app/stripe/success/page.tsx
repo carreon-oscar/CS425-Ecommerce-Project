@@ -1,6 +1,7 @@
 import { CheckCheck } from 'lucide-react';
 import Link from 'next/link';
 
+//icons provided by lucide icon library
 export default function StripeSuccess() {
   return (
     <div className="h-screen">

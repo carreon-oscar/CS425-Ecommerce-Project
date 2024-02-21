@@ -19,6 +19,7 @@ const borderVariants = {
   },
 };
 
+//all icons are provided by react icons library
 export default function Navbar() {
   const [isDropDownVisible, setisDropDownVisible] = useState(false);
   const { handleCartClick } = useShoppingCart();
