@@ -1,5 +1,11 @@
 //commonly used interfaces
 
+export interface catToRender {
+  men: boolean;
+  women: boolean;
+  featured: boolean;
+}
+
 export interface Product {
   _id: string;
   imageUrl: string;
