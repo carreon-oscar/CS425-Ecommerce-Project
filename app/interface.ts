@@ -1,6 +1,6 @@
 //commonly used interfaces
 
-export interface catToRender {
+export interface CatToRender {
   men: boolean;
   women: boolean;
   featured: boolean;
@@ -37,4 +37,10 @@ export interface ProductStripe {
 
 export interface ImageList {
   images: any;
+}
+
+export interface CatLinkProps {
+  linkTitle: string;
+  callback: () => void;
+  linkRef: string;
 }
