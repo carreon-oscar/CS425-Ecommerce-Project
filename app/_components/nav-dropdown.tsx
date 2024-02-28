@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { catToRender } from '../interface';
+import { CatToRender } from '../interface';
 import { bgVariants, contentVariants, dropVariants } from '../variants';
 
 const menCategories = [
@@ -28,7 +28,7 @@ export default function Dropdown({
   callback,
   isDropDownVisible,
 }: {
-  catToRender: catToRender;
+  catToRender: CatToRender;
   callback: (state: boolean) => void;
   isDropDownVisible: boolean;
 }) {

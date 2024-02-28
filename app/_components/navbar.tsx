@@ -4,13 +4,9 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { IoBagOutline, IoSearchOutline } from 'react-icons/io5';
 import { useShoppingCart } from 'use-shopping-cart';
+import { CatToRender } from '../interface';
+import CategoryLink from './category-link';
 import Dropdown from './nav-dropdown';
-
-const catToRender = {
-  men: false,
-  women: false,
-  featured: false,
-};
 
 //all icons are provided by react icons library
 export default function Navbar() {
@@ -21,6 +17,29 @@ export default function Navbar() {
     featured: false,
   });
   const { handleCartClick } = useShoppingCart();
+
+  function hasCatChanged(currentCat: CatToRender, selectedCat: CatToRender) {
+    for (let key in currentCat) {
+      if (
+        currentCat[key as keyof CatToRender] !==
+        selectedCat[key as keyof CatToRender]
+      ) {
+        return true; // Value has changed
+      }
+    }
+    return false; // Value has not changed}
+  }
+
+  function handleDropDownOpen(selectedCat: CatToRender) {
+    if (isDropDownVisible) {
+      //prevent rerender of currently selected category if user mouses back over the same category
+      if (hasCatChanged(catToRender, selectedCat))
+        setCatToRender(() => selectedCat);
+    } else {
+      setIsDropDownVisible(true);
+      setCatToRender(() => selectedCat);
+    }
+  }
 
   function handleDropdownExit(isVisible: boolean) {
     setIsDropDownVisible(isVisible);
@@ -39,63 +58,39 @@ export default function Navbar() {
             }
           }}
         >
-          <Link href="/featured">
-            <span
-              onMouseEnter={() => {
-                if (isDropDownVisible) {
-                  setCatToRender(() => ({
-                    men: false,
-                    women: false,
-                    featured: true,
-                  }));
-                } else {
-                  catToRender.featured = true;
-                  setIsDropDownVisible(true);
-                }
-              }}
-              className="text-lg link-underline link-underline-black p-3"
-            >
-              Featured
-            </span>
-          </Link>
-          <Link href="/men">
-            <span
-              onMouseEnter={() => {
-                if (isDropDownVisible) {
-                  setCatToRender(() => ({
-                    men: true,
-                    women: false,
-                    featured: false,
-                  }));
-                } else {
-                  catToRender.men = true;
-                  setIsDropDownVisible(true);
-                }
-              }}
-              className="text-lg link-underline link-underline-black p-3"
-            >
-              Men
-            </span>
-          </Link>
-          <Link href="/women">
-            <span
-              onMouseEnter={() => {
-                if (isDropDownVisible) {
-                  setCatToRender(() => ({
-                    men: false,
-                    women: true,
-                    featured: false,
-                  }));
-                } else {
-                  catToRender.women = true;
-                  setIsDropDownVisible(true);
-                }
-              }}
-              className="text-lg link-underline link-underline-black p-3"
-            >
-              Women
-            </span>
-          </Link>
+          <CategoryLink
+            linkTitle="Featured"
+            linkRef="/featured"
+            callback={() =>
+              handleDropDownOpen({
+                men: false,
+                women: false,
+                featured: true,
+              })
+            }
+          />
+          <CategoryLink
+            linkTitle="Men"
+            linkRef="/men"
+            callback={() =>
+              handleDropDownOpen({
+                men: true,
+                women: false,
+                featured: false,
+              })
+            }
+          />
+          <CategoryLink
+            linkTitle="Women"
+            linkRef="/women"
+            callback={() =>
+              handleDropDownOpen({
+                men: false,
+                women: true,
+                featured: false,
+              })
+            }
+          />
           <Dropdown
             catToRender={catToRender}
             callback={handleDropdownExit}
