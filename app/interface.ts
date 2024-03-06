@@ -41,6 +41,7 @@ export interface ImageList {
 
 export interface CatLinkProps {
   linkTitle: string;
-  callback: () => void;
+  handleDropDownOpen: () => void;
+  handleDropDownExit: (status: boolean) => void;
   linkRef: string;
 }
