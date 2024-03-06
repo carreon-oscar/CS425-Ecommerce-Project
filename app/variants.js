@@ -27,7 +27,7 @@ export const contentVariants = {
   animate: {
     opacity: 1,
     y: 0,
-    transition: { ease: 'easeInOut', duration: 0.25 },
+    transition: { ease: 'easeInOut', duration: 0.15 },
   },
   exit: {
     opacity: 0,
