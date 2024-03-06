@@ -58,19 +58,22 @@ export default function NavLinks() {
       <CategoryLink
         linkTitle="Featured"
         linkRef="/featured"
-        callback={() => handleDropDownOpen('featured')}
+        handleDropDownExit={handleDropdownExit}
+        handleDropDownOpen={() => handleDropDownOpen('featured')}
       />
       <CategoryLink
         linkTitle="Men"
         linkRef="/men"
-        callback={() => {
+        handleDropDownExit={handleDropdownExit}
+        handleDropDownOpen={() => {
           handleDropDownOpen('men');
         }}
       />
       <CategoryLink
         linkTitle="Women"
         linkRef="/women"
-        callback={() => handleDropDownOpen('women')}
+        handleDropDownExit={handleDropdownExit}
+        handleDropDownOpen={() => handleDropDownOpen('women')}
       />
       <Dropdown
         currentCat={currentCat}
