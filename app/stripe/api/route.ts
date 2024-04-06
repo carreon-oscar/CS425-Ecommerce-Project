@@ -10,7 +10,7 @@ interface Product {
 export async function POST(request: Request) {
   //convert the request body into FormData
   const formData: FormData = await request.formData();
-  const cartDetails = JSON.parse(formData.get('cartDetails'));
+  const cartDetails = JSON.parse(formData.get('cartDetails') as string);
 
   const lineItems = [];
   for (const product of Object.values<Product>(cartDetails)) {
