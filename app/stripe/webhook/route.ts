@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   //create an event and verify that it came from stripe
   try {
     event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
-  } catch (err) {
+  } catch (err: any) {
     return new Response(
       `Error when constructing event in webhook: ${err.message}`,
       {
