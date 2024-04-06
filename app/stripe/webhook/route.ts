@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const endpointSecret = process.env.PROD_STRIPE_WEBHOOK_SECRET;
 
-export async function sendEmail(customerEmail: string) {
+async function sendEmail(customerEmail: string) {
   try {
     const { data, error: err } = await resend.emails.send({
       from: 'ethanvito@nevada.unr.edu',
