@@ -7,14 +7,14 @@ import CategoryLink from './category-link';
 
 const categories = {
   men: [
-    ['Stuff 1', 'Stuff 2', 'Stuff 3'],
-    ['Stuff 4', 'Stuff 5', 'Stuff 6'],
-    ['Stuff 7', 'Stuff 8', 'Stuff 9'],
+    ['Category 1', 'Category 2', 'Category 3'],
+    ['Category 4', 'Category 5', 'Category 6'],
+    ['Category 7', 'Category 8', 'Category 9'],
   ],
   women: [
     ['Stuff 44', 'Stuff 44', 'Stuff 44'],
     ['Stuff 44', 'Stuff 44', ''],
-    ['Stuff 44', 'Stuff 44', 'Stuff 44'],
+    ['Stuff 44', 'Stuff 44', 'Stuff 44', 'Stuff 44'],
   ],
   featured: [
     ['Stuff 55', 'Stuff 55', 'Stuff 55'],
@@ -58,19 +58,22 @@ export default function NavLinks() {
       <CategoryLink
         linkTitle="Featured"
         linkRef="/featured"
-        callback={() => handleDropDownOpen('featured')}
+        handleDropDownExit={handleDropdownExit}
+        handleDropDownOpen={() => handleDropDownOpen('featured')}
       />
       <CategoryLink
         linkTitle="Men"
         linkRef="/men"
-        callback={() => {
+        handleDropDownExit={handleDropdownExit}
+        handleDropDownOpen={() => {
           handleDropDownOpen('men');
         }}
       />
       <CategoryLink
         linkTitle="Women"
         linkRef="/women"
-        callback={() => handleDropDownOpen('women')}
+        handleDropDownExit={handleDropdownExit}
+        handleDropDownOpen={() => handleDropDownOpen('women')}
       />
       <Dropdown
         currentCat={currentCat}
@@ -110,12 +113,12 @@ function Dropdown({
         <>
           <motion.div
             key="dropdown"
-            className="absolute bottom-0 left-0 right-0 translate-y-full bg-white text-white z-20"
+            className="absolute bottom-0 left-0 right-0 translate-y-full bg-white text-white shadow-md z-20"
             initial="initial"
             animate="animate"
             exit="exit"
             variants={dropVariants}
-            layout
+            layout="position"
           >
             <Category currentCat={currentCat} />
           </motion.div>

@@ -38,16 +38,16 @@ export const contentVariants = {
 
 export const bgVariants = {
   initial: {
-    backgroundColor: 'rgba(0,0,0,0)',
+    backgroundColor: 'rgba(255,255,255,0)',
     backdropFilter: 'blur(0px)',
   },
   animate: {
-    backgroundColor: 'rgba(0,0,0,.5)',
+    backgroundColor: 'rgba(255,255,255,.4)',
     backdropFilter: 'blur(4px)',
     transition: { ease: 'easeInOut', duration: 0.3, delay: 0.1 },
   },
   exit: {
-    backgroundColor: 'rgba(0,0,0,0)',
+    backgroundColor: 'rgba(255,255,255,0)',
     backdropFilter: 'blur(0px)',
     transition: { ease: 'easeOut', duration: 0.2 },
   },

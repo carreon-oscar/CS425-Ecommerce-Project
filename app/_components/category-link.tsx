@@ -4,12 +4,13 @@ import { CatLinkProps } from '../interface';
 export default function CategoryLink({
   linkTitle,
   linkRef,
-  callback,
+  handleDropDownOpen,
+  handleDropDownExit,
 }: CatLinkProps) {
   return (
-    <Link href={linkRef}>
+    <Link href={linkRef} onClick={() => handleDropDownExit(false)}>
       <span
-        onMouseEnter={callback}
+        onMouseEnter={handleDropDownOpen}
         className="text-lg link-underline link-underline-black p-3"
       >
         {linkTitle}

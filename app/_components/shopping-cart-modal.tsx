@@ -1,5 +1,4 @@
 'use client';
-
 import {
   Sheet,
   SheetContent,
@@ -15,33 +14,18 @@ export default function ShoppingCartModal() {
     shouldDisplayCart,
     handleCartClick,
     cartDetails,
-    removeItem,
     totalPrice,
     redirectToCheckout,
   }: {
     cartCount: number;
     shouldDisplayCart: boolean;
     handleCartClick: () => void;
-    cartDetails: any;
-    removeItem: any;
+    cartDetails: {};
     totalPrice: number;
-    redirectToCheckout: any;
+    redirectToCheckout: (sessionId?: string) => Promise<any>;
   } = useShoppingCart();
 
-  //Handler function provided by use-shopping-cart
-  async function handleCheckoutClick(event: any) {
-    event.preventDefault();
-    try {
-      const result = await redirectToCheckout();
-      if (result?.error) {
-        console.error(result);
-      }
-    } catch (error) {
-      console.error('Checkout Error:', error);
-    }
-  }
-
-  // console.log(Object.values(cartDetails));
+  // console.log(cartDetails);
 
   //sheet modal provided by shadcn component library
   return (
@@ -61,40 +45,14 @@ export default function ShoppingCartModal() {
               <ul className="-my-6 divide-y divide-gray-200">
                 {/* shape of product object defined in addItem() documentation */}
                 {Object.values(cartDetails).map((product: any) => (
-                  <li key={product.id} className="flex py-6">
-                    <div className="h-24 w-24 overflow-hidden rounded-md border border-gray-200">
-                      <Image
-                        src={product.image as string}
-                        alt="Product Image"
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-                    <div className="ml-4 flex flex-1 flex-col">
-                      <div>
-                        <div className="flex justify-between text-base font-medium text-gray-900">
-                          <h3>{product.name}</h3>
-                          <p>${product.price}</p>
-                        </div>
-                        <p className="text-sm text-gray-500">Color</p>
-                      </div>
-                      <div className="flex flex-1 items-end justify-between text-sm">
-                        <div>
-                          <span className="text-gray-500">
-                            Quantity: {product.quantity}
-                          </span>
-                          <span className="text-gray-500 ml-6">Size</span>
-                        </div>
-
-                        <button
-                          onClick={() => removeItem(product.id)}
-                          className="font-medium text-stone-800 hover:text-opacity-80"
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                  </li>
+                  <ProductCard
+                    key={product.id}
+                    name={product.name}
+                    price={product.price}
+                    image={product.image as string}
+                    quantity={product.quantity}
+                    id={product.id}
+                  />
                 ))}
               </ul>
             </div>
@@ -103,17 +61,105 @@ export default function ShoppingCartModal() {
                 <p>Subtotal:</p>
                 <p>${totalPrice}</p>
               </div>
-
-              <button
+              {/* data sent using POST with a form is sent in the request body */}
+              <form action="/stripe/api" method="POST">
+                <input
+                  type="hidden"
+                  name="cartDetails"
+                  id="data-input"
+                  value={JSON.stringify(cartDetails)}
+                />
+                <button
+                  type="submit"
+                  className="bg-stone-800 text-slate-100 rounded-2xl py-2 mt-2 w-full hover:opacity-75 transition-opacity"
+                >
+                  Checkout
+                </button>
+              </form>
+              {/* <button
                 onClick={handleCheckoutClick}
                 className="bg-stone-800 text-slate-100 rounded-2xl py-2 mt-2 w-full hover:opacity-75 transition-opacity"
               >
                 Checkout
-              </button>
+              </button> */}
             </div>
           </div>
         )}
       </SheetContent>
     </Sheet>
+  );
+}
+
+function ProductCard({
+  name,
+  price,
+  image,
+  quantity,
+  id,
+}: {
+  name: string;
+  price: number;
+  image: string;
+  quantity: number;
+  id: string;
+}) {
+  const {
+    removeItem,
+    setItemQuantity,
+  }: {
+    removeItem: (id: string) => undefined;
+    setItemQuantity: (id: string, quantity: number) => undefined;
+  } = useShoppingCart();
+
+  const options = [];
+  for (let quantity = 1; quantity <= 10; ++quantity)
+    options.push(<option value={quantity}>{quantity}</option>);
+
+  return (
+    <li className="flex py-6">
+      <div className="h-24 w-24 overflow-hidden rounded-md border border-gray-200">
+        <Image
+          src={image as string}
+          alt="Product Image"
+          width={100}
+          height={100}
+        />
+      </div>
+      <div className="ml-4 flex flex-1 flex-col">
+        <div>
+          <div className="flex justify-between text-base font-medium text-gray-900">
+            <h3>{name}</h3>
+            <p>${price}</p>
+          </div>
+          <p className="text-sm text-gray-500">Color</p>
+        </div>
+        <div className="flex flex-1 items-end justify-between text-sm">
+          <div>
+            <label
+              htmlFor="location"
+              className="text-sm font-medium text-gray-900"
+            >
+              Quantity
+            </label>
+            <select
+              onChange={(e) => {
+                setItemQuantity(id, parseInt(e.target.value, 10));
+              }}
+              id="location"
+              defaultValue={quantity}
+              className="ml-2 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 hover:cursor-pointer"
+            >
+              {options}
+            </select>
+          </div>
+          <button
+            onClick={() => removeItem(id)}
+            className="font-medium text-stone-800 hover:text-opacity-80"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+    </li>
   );
 }

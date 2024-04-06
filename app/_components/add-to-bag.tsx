@@ -1,8 +1,9 @@
 'use client';
 
 import { useShoppingCart } from 'use-shopping-cart';
-import { urlFor } from '../lib/santiy';
 import { ProductStripe } from '../interface';
+import { urlFor } from '../lib/santiy';
+// import { CartActions } from 'use-shopping-cart';
 
 export default function AddToBag({
   name,
@@ -12,12 +13,13 @@ export default function AddToBag({
   image,
   price_id,
 }: ProductStripe) {
-  const { addItem, handleCartClick } = useShoppingCart();
+  const { addItem, handleCartClick, cartDetails } = useShoppingCart();
 
   // product must follow the shape specified by useshoppingcart for addItem()
   const product = {
     name: name,
     description: description,
+    id: price_id,
     price: price,
     currency: currency,
     image: urlFor(image).url(),
@@ -25,8 +27,16 @@ export default function AddToBag({
   };
 
   function handleBagClick() {
-    addItem(product);
-    handleCartClick();
+    //if product with id is not defined (not present in the cart) add it
+    if (
+      cartDetails?.[product.id] === undefined ||
+      cartDetails[product.id].quantity < 10
+    ) {
+      addItem(product);
+      handleCartClick();
+    } else {
+      alert('cant add more product');
+    }
   }
 
   return (

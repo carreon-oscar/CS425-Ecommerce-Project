@@ -4,14 +4,17 @@ import { CheckCheck } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { useShoppingCart } from 'use-shopping-cart';
 
 //icons provided by lucide icon library
 export default function StripeSuccess() {
   const [count, setCount] = useState(5);
   const router = useRouter();
   const timerID = useRef<NodeJS.Timeout>();
+  const { clearCart } = useShoppingCart();
 
   useEffect(() => {
+    clearCart();
     timerID.current = setInterval(() => {
       setCount((prevCount) => prevCount - 1);
     }, 1000);
