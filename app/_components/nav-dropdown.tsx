@@ -14,7 +14,7 @@ const categories = {
   women: [
     ['Stuff 44', 'Stuff 44', 'Stuff 44'],
     ['Stuff 44', 'Stuff 44', ''],
-    ['Stuff 44', 'Stuff 44', 'Stuff 44'],
+    ['Stuff 44', 'Stuff 44', 'Stuff 44', 'Stuff 44'],
   ],
   featured: [
     ['Stuff 55', 'Stuff 55', 'Stuff 55'],
@@ -118,7 +118,7 @@ function Dropdown({
             animate="animate"
             exit="exit"
             variants={dropVariants}
-            layout
+            layout="position"
           >
             <Category currentCat={currentCat} />
           </motion.div>
