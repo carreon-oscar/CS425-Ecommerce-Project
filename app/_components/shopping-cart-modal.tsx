@@ -25,18 +25,7 @@ export default function ShoppingCartModal() {
     redirectToCheckout: (sessionId?: string) => Promise<any>;
   } = useShoppingCart();
 
-  //Handler function provided by use-shopping-cart
-  async function handleCheckoutClick(event: any) {
-    event.preventDefault();
-    try {
-      const result = await redirectToCheckout();
-      if (result?.error) {
-        console.error(result);
-      }
-    } catch (error) {
-      console.error('Checkout Error:', error);
-    }
-  }
+  // console.log(cartDetails);
 
   //sheet modal provided by shadcn component library
   return (
@@ -72,13 +61,27 @@ export default function ShoppingCartModal() {
                 <p>Subtotal:</p>
                 <p>${totalPrice}</p>
               </div>
-
-              <button
+              {/* data sent using POST with a form is sent in the request body */}
+              <form action="/stripe/api" method="POST">
+                <input
+                  type="hidden"
+                  name="cartDetails"
+                  id="data-input"
+                  value={JSON.stringify(cartDetails)}
+                />
+                <button
+                  type="submit"
+                  className="bg-stone-800 text-slate-100 rounded-2xl py-2 mt-2 w-full hover:opacity-75 transition-opacity"
+                >
+                  Checkout
+                </button>
+              </form>
+              {/* <button
                 onClick={handleCheckoutClick}
                 className="bg-stone-800 text-slate-100 rounded-2xl py-2 mt-2 w-full hover:opacity-75 transition-opacity"
               >
                 Checkout
-              </button>
+              </button> */}
             </div>
           </div>
         )}
