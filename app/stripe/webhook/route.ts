@@ -9,7 +9,7 @@ const endpointSecret = process.env.PROD_STRIPE_WEBHOOK_SECRET;
 async function sendEmail(customerEmail: string) {
   try {
     const { data, error: err } = await resend.emails.send({
-      from: 'ethanvito@nevada.unr.edu',
+      from: 'onboarding@resend.dev',
       to: customerEmail,
       subject: 'Hello world',
       react: EmailTemplate(),
