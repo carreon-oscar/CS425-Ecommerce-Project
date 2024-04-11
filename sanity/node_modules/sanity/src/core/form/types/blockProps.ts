@@ -1,26 +1,27 @@
 import {
-  ArraySchemaType,
-  BlockDecoratorDefinition,
-  BlockListDefinition,
-  BlockStyleDefinition,
-  FormNodeValidation,
-  ObjectSchemaType,
-  Path,
-  PortableTextBlock,
-  PortableTextObject,
-  PortableTextTextBlock,
-  SchemaType,
+  type ArraySchemaType,
+  type BlockDecoratorDefinition,
+  type BlockListDefinition,
+  type BlockStyleDefinition,
+  type FormNodeValidation,
+  type ObjectSchemaType,
+  type Path,
+  type PortableTextBlock,
+  type PortableTextObject,
+  type PortableTextTextBlock,
+  type SchemaType,
 } from '@sanity/types'
-import {ReactElement, ReactNode} from 'react'
-import {FormNodePresence} from '../../presence'
-import {PortableTextMarker} from '../..'
+import {type ReactElement, type ReactNode} from 'react'
+
+import {type PortableTextMarker} from '../..'
+import {type FormNodePresence} from '../../presence'
 import {
-  RenderAnnotationCallback,
-  RenderArrayOfObjectsItemCallback,
-  RenderBlockCallback,
-  RenderFieldCallback,
-  RenderInputCallback,
-  RenderPreviewCallback,
+  type RenderAnnotationCallback,
+  type RenderArrayOfObjectsItemCallback,
+  type RenderBlockCallback,
+  type RenderFieldCallback,
+  type RenderInputCallback,
+  type RenderPreviewCallback,
 } from './renderCallback'
 
 /**
@@ -33,7 +34,7 @@ export interface BlockDecoratorProps {
   /**
    * The span node as rendered without the decorator.
    */
-  children: React.ReactElement
+  children: ReactElement
   /**
    * If the span node currently is focused by the user.
    */
@@ -42,7 +43,7 @@ export interface BlockDecoratorProps {
    * The default render function for this decorator,
    * some decorators are proved by default and has a default rendering.
    */
-  renderDefault: (props: BlockDecoratorProps) => React.ReactElement
+  renderDefault: (props: BlockDecoratorProps) => ReactElement
   /**
    * The decorator schema type. Icon can be found here.
    */
@@ -75,7 +76,7 @@ export interface BlockStyleProps {
   /**
    * The block as rendered without this style.
    */
-  children: React.ReactElement
+  children: ReactElement
   /**
    * If the block currently has focus in the text editor.
    */
@@ -83,7 +84,7 @@ export interface BlockStyleProps {
   /**
    * The default rendering function for this style.
    */
-  renderDefault: (props: BlockStyleProps) => React.ReactElement
+  renderDefault: (props: BlockStyleProps) => ReactElement
   /**
    * The schema type for this style.
    */
@@ -115,7 +116,7 @@ export interface BlockListItemProps {
   /**
    * The block rendered without the list style.
    */
-  children: React.ReactElement
+  children: ReactElement
   /**
    * If the block currently is focused by the user.
    */
@@ -128,7 +129,7 @@ export interface BlockListItemProps {
    * The default function for rendering this as a list item. Some list types are built in and
    * will have a default rendering.
    */
-  renderDefault: (props: BlockListItemProps) => React.ReactElement
+  renderDefault: (props: BlockListItemProps) => ReactElement
   /**
    * The schema type for this list type. Icon can be found here.
    */

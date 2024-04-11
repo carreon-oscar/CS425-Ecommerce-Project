@@ -1,16 +1,17 @@
-import React, {useCallback, useEffect, useMemo} from 'react'
 import {createBrowserHistory, createMemoryHistory} from 'history'
+import {type ComponentType, type ReactNode, useCallback, useEffect, useMemo} from 'react'
+
+import {type RouterHistory} from '../router'
 import {useWorkspaces} from '../workspaces'
-import type {RouterHistory} from '../router'
-import {useSyncPathnameWithWorkspace} from './useSyncPathnameWithWorkspace'
 import {ActiveWorkspaceMatcherProvider} from './ActiveWorkspaceMatcherProvider'
+import {useSyncPathnameWithWorkspace} from './useSyncPathnameWithWorkspace'
 
 /** @internal */
 export interface ActiveWorkspaceMatcherProps {
-  children: React.ReactNode
+  children: ReactNode
   unstable_history?: RouterHistory
-  NotFoundComponent: React.ComponentType<{onNavigateToDefaultWorkspace: () => void}>
-  LoadingComponent: React.ComponentType
+  NotFoundComponent: ComponentType<{onNavigateToDefaultWorkspace: () => void}>
+  LoadingComponent: ComponentType
 }
 
 const createHistory = () =>

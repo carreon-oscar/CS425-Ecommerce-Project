@@ -1,9 +1,10 @@
-import {PreviewValue, SanityDocument, SchemaType} from '@sanity/types'
-import React from 'react'
-import {combineLatest, Observable, of} from 'rxjs'
+import {type PreviewValue, type SanityDocument, type SchemaType} from '@sanity/types'
+import {type ReactNode} from 'react'
+import {combineLatest, type Observable, of} from 'rxjs'
 import {map, startWith} from 'rxjs/operators'
+
 import {getDraftId, getPublishedId} from '../../util/draftUtils'
-import {DocumentPreviewStore} from '../documentPreviewStore'
+import {type DocumentPreviewStore} from '../documentPreviewStore'
 
 export interface PreviewState {
   isLoading?: boolean
@@ -22,7 +23,7 @@ export function getPreviewStateObservable(
   documentPreviewStore: DocumentPreviewStore,
   schemaType: SchemaType,
   documentId: string,
-  title: React.ReactNode,
+  title: ReactNode,
 ): Observable<PreviewState> {
   const draft$ = isLiveEditEnabled(schemaType)
     ? of({snapshot: null})

@@ -1,6 +1,5 @@
-import React from 'react'
-import {UserColor} from '../../../../user-color'
-import {FieldPreviewComponent} from '../../../preview'
+import {type UserColor} from '../../../../user-color'
+import {type FieldPreviewComponent} from '../../../preview'
 
 type BooleanProps = {
   checked: boolean | undefined | null

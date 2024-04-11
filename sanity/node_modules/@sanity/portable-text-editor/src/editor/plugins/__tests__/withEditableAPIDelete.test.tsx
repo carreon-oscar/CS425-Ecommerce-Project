@@ -1,8 +1,9 @@
+import {describe, expect, it, jest} from '@jest/globals'
 import {render, waitFor} from '@testing-library/react'
+import {createRef, type RefObject} from 'react'
 
-import React from 'react'
-import {PortableTextEditor} from '../../PortableTextEditor'
 import {PortableTextEditorTester, schemaType} from '../../__tests__/PortableTextEditorTester'
+import {PortableTextEditor} from '../../PortableTextEditor'
 
 const initialValue = [
   {
@@ -42,7 +43,7 @@ const initialSelection = {
 
 describe('plugin:withEditableAPI: .delete()', () => {
   it('deletes block', async () => {
-    const editorRef: React.RefObject<PortableTextEditor> = React.createRef()
+    const editorRef: RefObject<PortableTextEditor> = createRef()
     const onChange = jest.fn()
     render(
       <PortableTextEditorTester
@@ -84,7 +85,7 @@ describe('plugin:withEditableAPI: .delete()', () => {
   })
 
   it('deletes all the blocks, but leaves a placeholder block', async () => {
-    const editorRef: React.RefObject<PortableTextEditor> = React.createRef()
+    const editorRef: RefObject<PortableTextEditor> = createRef()
     const onChange = jest.fn()
     render(
       <PortableTextEditorTester
@@ -137,7 +138,7 @@ describe('plugin:withEditableAPI: .delete()', () => {
   })
 
   it('deletes children', async () => {
-    const editorRef: React.RefObject<PortableTextEditor> = React.createRef()
+    const editorRef: RefObject<PortableTextEditor> = createRef()
     const onChange = jest.fn()
     render(
       <PortableTextEditorTester
@@ -196,7 +197,7 @@ describe('plugin:withEditableAPI: .delete()', () => {
     })
   })
   it('deletes selected', async () => {
-    const editorRef: React.RefObject<PortableTextEditor> = React.createRef()
+    const editorRef: RefObject<PortableTextEditor> = createRef()
     const onChange = jest.fn()
     render(
       <PortableTextEditorTester

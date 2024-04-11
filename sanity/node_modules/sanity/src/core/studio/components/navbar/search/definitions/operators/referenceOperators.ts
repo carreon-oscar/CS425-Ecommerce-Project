@@ -1,12 +1,17 @@
-import {ReferenceValue} from '@sanity/types'
+import {type ReferenceValue} from '@sanity/types'
+
 import {SearchButtonValueReference} from '../../components/filters/common/ButtonValue'
 import {SearchFilterAssetInput} from '../../components/filters/filter/inputs/asset/Asset'
 import {SearchFilterReferenceInput} from '../../components/filters/filter/inputs/reference/Reference'
-import {defineSearchOperator, SearchOperatorButtonValue, SearchOperatorInput} from './operatorTypes'
+import {
+  defineSearchOperator,
+  type SearchOperatorButtonValue,
+  type SearchOperatorInput,
+} from './operatorTypes'
 import {toJSON} from './operatorUtils'
 
 // @todo: don't manually cast `buttonValueComponent` and `inputComponent` once
-// we understand why `yarn etl` fails with 'Unable to follow symbol' errors
+// we understand why `npm etl` fails with 'Unable to follow symbol' errors
 export const referenceOperators = {
   referenceEqual: defineSearchOperator({
     nameKey: 'search.operator.reference-equal.name',

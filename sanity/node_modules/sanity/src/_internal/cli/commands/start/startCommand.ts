@@ -1,5 +1,10 @@
-import type {CliCommandArguments, CliCommandContext, CliCommandDefinition} from '@sanity/cli'
-import type {StartPreviewServerCommandFlags} from '../../actions/preview/previewAction'
+import {
+  type CliCommandArguments,
+  type CliCommandContext,
+  type CliCommandDefinition,
+} from '@sanity/cli'
+
+import {type StartPreviewServerCommandFlags} from '../../actions/preview/previewAction'
 import {isInteractive} from '../../util/isInteractive'
 import {getDevAction} from '../dev/devCommand'
 
@@ -20,7 +25,7 @@ Examples
 const startCommand: CliCommandDefinition = {
   name: 'start',
   signature: '[BUILD_OUTPUT_DIR] [--port <port>] [--host <host>]',
-  description: 'Alias of `sanity preview`',
+  description: 'Alias for `sanity preview`',
   action: async (
     args: CliCommandArguments<StartPreviewServerCommandFlags>,
     context: CliCommandContext,
@@ -76,7 +81,7 @@ async function getPreviewAction() {
   // NOTE: in dev-mode we want to include from `src` so we need to use `.ts` extension
   // NOTE: this `if` statement is not included in the output bundle
   if (__DEV__) {
-    // eslint-disable-next-line import/extensions
+    // eslint-disable-next-line import/extensions,@typescript-eslint/consistent-type-imports
     const mod: typeof import('../../actions/preview/previewAction') = require('../../actions/preview/previewAction.ts')
 
     return mod.default

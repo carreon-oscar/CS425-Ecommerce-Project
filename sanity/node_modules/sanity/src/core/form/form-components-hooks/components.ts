@@ -1,23 +1,30 @@
-import {SchemaType} from '@sanity/types'
-import React, {createElement, useCallback} from 'react'
-import {PreviewProps} from '../../components/previews'
+import {type SchemaType} from '@sanity/types'
+import {type ComponentType, createElement, type ReactElement, useCallback} from 'react'
+
+import {type PreviewProps} from '../../components/previews'
+import {
+  defaultResolveAnnotationComponent,
+  defaultResolveBlockComponent,
+  defaultResolveInlineBlockComponent,
+} from '../studio/inputResolver/blockResolver'
+import {defaultResolveFieldComponent} from '../studio/inputResolver/fieldResolver'
 import {
   defaultResolveInputComponent,
   defaultResolvePreviewComponent,
 } from '../studio/inputResolver/inputResolver'
-import {BlockAnnotationProps, BlockProps, FieldProps, InputProps, ItemProps} from '../types'
-import {defaultResolveFieldComponent} from '../studio/inputResolver/fieldResolver'
 import {defaultResolveItemComponent} from '../studio/inputResolver/itemResolver'
 import {
-  defaultResolveBlockComponent,
-  defaultResolveInlineBlockComponent,
-  defaultResolveAnnotationComponent,
-} from '../studio/inputResolver/blockResolver'
+  type BlockAnnotationProps,
+  type BlockProps,
+  type FieldProps,
+  type InputProps,
+  type ItemProps,
+} from '../types'
 
 function useResolveDefaultComponent<T extends {schemaType?: SchemaType}>(props: {
   componentProps: Omit<T, 'renderDefault'>
-  componentResolver: (schemaType: SchemaType) => React.ComponentType<Omit<T, 'renderDefault'>>
-}): React.ReactElement<T> {
+  componentResolver: (schemaType: SchemaType) => ComponentType<Omit<T, 'renderDefault'>>
+}): ReactElement<T> {
   const {componentResolver, componentProps} = props
 
   // NOTE: this will not happen, but we do this to avoid updating too many places
@@ -48,13 +55,13 @@ function useResolveDefaultComponent<T extends {schemaType?: SchemaType}>(props: 
   return createElement(defaultResolvedComponent, {
     ...componentProps,
     renderDefault,
-  }) as React.ReactElement<T>
+  }) as ReactElement<T>
 }
 
 /**
  * @internal
  */
-export function DefaultInput(props: Omit<InputProps, 'renderDefault'>): React.ReactElement {
+export function DefaultInput(props: Omit<InputProps, 'renderDefault'>): ReactElement {
   return useResolveDefaultComponent<Omit<InputProps, 'renderDefault'>>({
     componentProps: props,
     componentResolver: defaultResolveInputComponent,
@@ -64,7 +71,7 @@ export function DefaultInput(props: Omit<InputProps, 'renderDefault'>): React.Re
 /**
  * @internal
  */
-export function DefaultField(props: Omit<FieldProps, 'renderDefault'>): React.ReactElement {
+export function DefaultField(props: Omit<FieldProps, 'renderDefault'>): ReactElement {
   return useResolveDefaultComponent<Omit<FieldProps, 'renderDefault'>>({
     componentProps: props,
     componentResolver: defaultResolveFieldComponent,
@@ -74,7 +81,7 @@ export function DefaultField(props: Omit<FieldProps, 'renderDefault'>): React.Re
 /**
  * @internal
  */
-export function DefaultItem(props: Omit<ItemProps, 'renderDefault'>): React.ReactElement {
+export function DefaultItem(props: Omit<ItemProps, 'renderDefault'>): ReactElement {
   return useResolveDefaultComponent<Omit<ItemProps, 'renderDefault'>>({
     componentProps: props,
     componentResolver: defaultResolveItemComponent,
@@ -84,7 +91,7 @@ export function DefaultItem(props: Omit<ItemProps, 'renderDefault'>): React.Reac
 /**
  * @internal
  */
-export function DefaultPreview(props: Omit<PreviewProps, 'renderDefault'>): React.ReactElement {
+export function DefaultPreview(props: Omit<PreviewProps, 'renderDefault'>): ReactElement {
   return useResolveDefaultComponent<PreviewProps>({
     componentProps: props,
     componentResolver: defaultResolvePreviewComponent,
@@ -94,7 +101,7 @@ export function DefaultPreview(props: Omit<PreviewProps, 'renderDefault'>): Reac
 /**
  * @internal
  */
-export function DefaultBlock(props: Omit<BlockProps, 'renderDefault'>): React.ReactElement {
+export function DefaultBlock(props: Omit<BlockProps, 'renderDefault'>): ReactElement {
   return useResolveDefaultComponent<Omit<BlockProps, 'renderDefault'>>({
     componentProps: props,
     componentResolver: defaultResolveBlockComponent,
@@ -104,7 +111,7 @@ export function DefaultBlock(props: Omit<BlockProps, 'renderDefault'>): React.Re
 /**
  * @internal
  */
-export function DefaultInlineBlock(props: Omit<BlockProps, 'renderDefault'>): React.ReactElement {
+export function DefaultInlineBlock(props: Omit<BlockProps, 'renderDefault'>): ReactElement {
   return useResolveDefaultComponent<Omit<BlockProps, 'renderDefault'>>({
     componentProps: props,
     componentResolver: defaultResolveInlineBlockComponent,
@@ -116,7 +123,7 @@ export function DefaultInlineBlock(props: Omit<BlockProps, 'renderDefault'>): Re
  */
 export function DefaultAnnotation(
   props: Omit<BlockAnnotationProps, 'renderDefault'>,
-): React.ReactElement {
+): ReactElement {
   return useResolveDefaultComponent<Omit<BlockAnnotationProps, 'renderDefault'>>({
     componentProps: props,
     componentResolver: defaultResolveAnnotationComponent,

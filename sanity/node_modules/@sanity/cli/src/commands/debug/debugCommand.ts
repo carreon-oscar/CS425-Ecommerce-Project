@@ -1,4 +1,4 @@
-import type {CliCommandDefinition} from '../../types'
+import {type CliCommandDefinition} from '../../types'
 import {printDebugInfo} from './printDebugInfo'
 
 const help = `
@@ -18,7 +18,7 @@ Examples
 const debugCommand: CliCommandDefinition = {
   name: 'debug',
   signature: '[--secrets]',
-  description: 'Gathers information on Sanity environment',
+  description: 'Provides diagnostic info for Sanity Studio troubleshooting',
   helpText: help,
   action: printDebugInfo,
 }

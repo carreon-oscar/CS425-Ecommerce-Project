@@ -1,6 +1,7 @@
 import createImageUrlBuilder from '@sanity/image-url'
-import {ImageUrlFitMode} from '@sanity/types'
-import React, {forwardRef, useMemo} from 'react'
+import {type ImageUrlFitMode} from '@sanity/types'
+import {type ForwardedRef, forwardRef, type HTMLAttributes, useMemo} from 'react'
+
 import {useClient} from '../../hooks'
 import {DEFAULT_STUDIO_CLIENT_OPTIONS} from '../../studioClient'
 
@@ -39,8 +40,8 @@ export interface ImageProps {
 }
 
 export const Image = forwardRef(function Image(
-  props: ImageProps & Omit<React.HTMLAttributes<HTMLImageElement>, 'height' | 'src' | 'width'>,
-  ref: React.ForwardedRef<HTMLImageElement>,
+  props: ImageProps & Omit<HTMLAttributes<HTMLImageElement>, 'height' | 'src' | 'width'>,
+  ref: ForwardedRef<HTMLImageElement>,
 ) {
   const {dpr, fit, height, source, width, ...restProps} = props
   const client = useClient(DEFAULT_STUDIO_CLIENT_OPTIONS)

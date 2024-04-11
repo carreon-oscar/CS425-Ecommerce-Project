@@ -1,8 +1,8 @@
 import {MenuDivider} from '@sanity/ui'
-import React from 'react'
-import {DocumentFieldActionNode} from '../../../config'
-import {FieldActionMenuItem} from './FieldActionMenuItem'
+
+import {type DocumentFieldActionNode} from '../../../config'
 import {FieldActionMenuGroup} from './FieldActionMenuGroup'
+import {FieldActionMenuItem} from './FieldActionMenuItem'
 
 interface FieldActionMenuNodeProps {
   action: DocumentFieldActionNode

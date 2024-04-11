@@ -1,27 +1,29 @@
-import React, {
-  ReactElement,
+import {type Path, type PortableTextObject, type PortableTextTextBlock} from '@sanity/types'
+import {isEqual, uniq} from 'lodash'
+import {
+  type ReactElement,
   startTransition,
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import {Text} from 'slate'
-import {RenderLeafProps, useSelected} from 'slate-react'
-import {isEqual, uniq} from 'lodash'
-import {Path, PortableTextObject, PortableTextTextBlock} from '@sanity/types'
+import {type RenderLeafProps, useSelected} from 'slate-react'
+
 import {
-  RenderChildFunction,
-  PortableTextMemberSchemaTypes,
-  RenderAnnotationFunction,
-  RenderDecoratorFunction,
-  BlockDecoratorRenderProps,
-  BlockAnnotationRenderProps,
-  BlockChildRenderProps,
+  type BlockAnnotationRenderProps,
+  type BlockChildRenderProps,
+  type BlockDecoratorRenderProps,
+  type PortableTextMemberSchemaTypes,
+  type RenderAnnotationFunction,
+  type RenderChildFunction,
+  type RenderDecoratorFunction,
 } from '../../types/editor'
 import {debugWithName} from '../../utils/debug'
-import {DefaultAnnotation} from '../nodes/DefaultAnnotation'
 import {usePortableTextEditor} from '../hooks/usePortableTextEditor'
+import {DefaultAnnotation} from '../nodes/DefaultAnnotation'
 import {PortableTextEditor} from '../PortableTextEditor'
 
 const debug = debugWithName('components:Leaf')
@@ -47,7 +49,7 @@ export interface LeafProps extends RenderLeafProps {
 export const Leaf = (props: LeafProps) => {
   const {attributes, children, leaf, schemaTypes, renderChild, renderDecorator, renderAnnotation} =
     props
-  const spanRef = React.useRef<HTMLElement>(null)
+  const spanRef = useRef<HTMLElement>(null)
   const portableTextEditor = usePortableTextEditor()
   const blockSelected = useSelected()
   const [focused, setFocused] = useState(false)

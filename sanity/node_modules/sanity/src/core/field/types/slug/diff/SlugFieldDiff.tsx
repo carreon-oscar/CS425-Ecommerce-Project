@@ -1,6 +1,5 @@
-import React from 'react'
 import {DiffFromTo} from '../../../diff'
-import {DiffComponent, ObjectDiff} from '../../../types'
+import {type DiffComponent, type ObjectDiff} from '../../../types'
 import {SlugPreview} from '../preview'
 
 interface Slug {

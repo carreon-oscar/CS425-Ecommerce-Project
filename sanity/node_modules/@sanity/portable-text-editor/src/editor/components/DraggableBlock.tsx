@@ -1,12 +1,22 @@
-import React, {useState, useRef, useMemo, useCallback, DragEvent, useEffect} from 'react'
-import {Element as SlateElement, Transforms, Path, Editor} from 'slate'
+import {
+  type DragEvent,
+  type MutableRefObject,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import {Editor, type Element as SlateElement, Path, Transforms} from 'slate'
 import {ReactEditor, useSlateStatic} from 'slate-react'
+
 import {debugWithName} from '../../utils/debug'
 import {
-  IS_DRAGGING_ELEMENT_TARGET,
-  IS_DRAGGING_BLOCK_ELEMENT,
   IS_DRAGGING,
+  IS_DRAGGING_BLOCK_ELEMENT,
   IS_DRAGGING_BLOCK_TARGET_POSITION,
+  IS_DRAGGING_ELEMENT_TARGET,
 } from '../../utils/weakMaps'
 
 const debug = debugWithName('components:DraggableBlock')
@@ -16,10 +26,10 @@ const debugRenders = false
  * @internal
  */
 export interface DraggableBlockProps {
-  children: React.ReactNode
+  children: ReactNode
   element: SlateElement
   readOnly: boolean
-  blockRef: React.MutableRefObject<HTMLDivElement | null>
+  blockRef: MutableRefObject<HTMLDivElement | null>
 }
 
 /**
@@ -28,7 +38,7 @@ export interface DraggableBlockProps {
  */
 export const DraggableBlock = ({children, element, readOnly, blockRef}: DraggableBlockProps) => {
   const editor = useSlateStatic()
-  const dragGhostRef: React.MutableRefObject<undefined | HTMLElement> = useRef()
+  const dragGhostRef: MutableRefObject<undefined | HTMLElement> = useRef()
   const [isDragOver, setIsDragOver] = useState(false)
   const isVoid = useMemo(() => Editor.isVoid(editor, element), [editor, element])
   const isInline = useMemo(() => Editor.isInline(editor, element), [editor, element])

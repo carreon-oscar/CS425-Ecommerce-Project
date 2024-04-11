@@ -1,6 +1,6 @@
 import {ControlsIcon} from '@sanity/icons'
 import {Flex, Inline, Text} from '@sanity/ui'
-import React from 'react'
+
 import {Translate, useTranslation} from '../../../../../i18n'
 
 export function Instructions() {

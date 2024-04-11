@@ -1,5 +1,5 @@
+import {type HotkeyOptions, usePortableTextEditor} from '@sanity/portable-text-editor'
 import {useMemo, useState} from 'react'
-import {HotkeyOptions, usePortableTextEditor} from '@sanity/portable-text-editor'
 
 // This hook will create final hotkeys for the editor from on those from props.
 export function useHotkeys(hotkeys: HotkeyOptions): HotkeyOptions {
@@ -42,7 +42,7 @@ export function useHotkeys(hotkeys: HotkeyOptions): HotkeyOptions {
 // If we want to have a hotkey to open up a focused object, we can use this:
 //
 // const handleOpenObjectHotkey = (
-//   event: React.BaseSyntheticEvent,
+//   event: BaseSyntheticEvent,
 //   ptEditor: PortableTextEditor
 // ) => {
 //   const selection = PortableTextEditor.getSelection(ptEditor)

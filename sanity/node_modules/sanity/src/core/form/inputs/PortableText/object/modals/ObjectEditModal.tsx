@@ -1,5 +1,6 @@
-import React, {useCallback, useMemo} from 'react'
-import type {ObjectSchemaType} from '@sanity/types'
+import {type ObjectSchemaType} from '@sanity/types'
+import {type ReactNode, useCallback, useMemo} from 'react'
+
 import {useTranslation} from '../../../../../i18n'
 import {_getModalOption} from '../helpers'
 import {DefaultEditDialog} from './DialogModal'
@@ -7,7 +8,7 @@ import {PopoverEditDialog} from './PopoverModal'
 
 export function ObjectEditModal(props: {
   autoFocus?: boolean
-  children: React.ReactNode
+  children: ReactNode
   defaultType: 'dialog' | 'popover'
   floatingBoundary: HTMLElement | null
   onClose: () => void

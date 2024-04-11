@@ -1,4 +1,6 @@
-import {EditStateFor} from '../../store'
+import {type ComponentType, type ReactNode} from 'react'
+
+import {type EditStateFor} from '../../store'
 
 /**
  * @hidden
@@ -7,7 +9,7 @@ export interface DocumentBadgeDescription {
   title?: string
   label?: string | undefined
   color?: 'primary' | 'success' | 'warning' | 'danger'
-  icon?: React.ReactNode | React.ComponentType
+  icon?: ReactNode | ComponentType
 }
 
 /**

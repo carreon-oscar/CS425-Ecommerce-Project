@@ -1,5 +1,5 @@
 import {login} from '../../actions/login/login'
-import type {CliCommandDefinition} from '../../types'
+import {type CliCommandDefinition} from '../../types'
 
 const helpText = `
 Options
@@ -22,7 +22,7 @@ const loginCommand: CliCommandDefinition = {
   name: 'login',
   signature: '[--sso <slug>] [--provider <providerId>] [--no-open]',
   helpText,
-  description: 'Authenticates against the Sanity.io API',
+  description: 'Authenticates the CLI for access to Sanity projects',
   action: login,
 }
 
