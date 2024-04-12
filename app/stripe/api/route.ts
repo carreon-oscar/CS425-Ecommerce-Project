@@ -47,8 +47,8 @@ export async function POST(request: Request) {
       },
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${process.env.DEVELOPMENT_URL}/stripe/success/?success=true`,
-      cancel_url: `${process.env.DEVELOPMENT_URL}/stripe/error/?canceled=true`,
+      success_url: `${process.env.PRODUCTION_URL}/stripe/success/?success=true`,
+      cancel_url: `${process.env.PRODUCTION_URL}/stripe/error/?canceled=true`,
       expires_at: expiresAt(0.5),
     });
   } catch (err) {

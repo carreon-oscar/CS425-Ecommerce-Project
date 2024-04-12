@@ -4,7 +4,7 @@ import EmailTemplate from '@/app/_components/email-template';
 const stripe = require('stripe')(process.env.NEXT_SECRET_STRIPE_KEY);
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const endpointSecret = process.env.DEV_STRIPE_WEBHOOK_SECRET;
+const endpointSecret = process.env.PROD_STRIPE_WEBHOOK_SECRET;
 
 export async function POST(request: Request) {
   const payload = await request.text();

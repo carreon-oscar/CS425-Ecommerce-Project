@@ -33,8 +33,8 @@ export async function POST(request: Request) {
         currency: 'USD',
       },
       pricing_type: 'fixed_price',
-      redirect_url: `${process.env.DEVELOPMENT_URL}/coinbase/success/?success=true`,
-      cancel_url: `${process.env.DEVELOPMENT_URL}/coinbase/error/?canceled=true`,
+      redirect_url: `${process.env.PRODUCTION_URL}/coinbase/success/?success=true`,
+      cancel_url: `${process.env.PRODUCTION_URL}/coinbase/error/?canceled=true`,
       metadata: {
         lineItems: lineItems,
       },
