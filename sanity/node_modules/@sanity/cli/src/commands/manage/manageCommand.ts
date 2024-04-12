@@ -1,11 +1,12 @@
 import open from 'open'
-import type {CliCommandDefinition} from '../../types'
+
+import {type CliCommandDefinition} from '../../types'
 
 const manageCommand: CliCommandDefinition = {
   name: 'manage',
   signature: 'manage',
   helpText: '',
-  description: 'Opens the Sanity project management UI',
+  description: 'Opens project management interface in your web browser',
   async action(args, context) {
     const {output, cliConfig} = context
     const {print} = output

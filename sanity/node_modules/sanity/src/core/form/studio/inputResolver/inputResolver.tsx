@@ -1,21 +1,25 @@
 /* eslint-disable react/jsx-handler-names */
-import {ArraySchemaType, NumberSchemaType, SchemaType, StringSchemaType} from '@sanity/types'
-import React from 'react'
-import {InputProps} from '../../types'
-import * as is from '../../utils/is'
-import {PreviewProps} from '../../../components'
+import {
+  type ArraySchemaType,
+  type NumberSchemaType,
+  type SchemaType,
+  type StringSchemaType,
+} from '@sanity/types'
+import {type ComponentType} from 'react'
+
+import {type PreviewProps} from '../../../components'
+import {type FIXME} from '../../../FIXME'
 import {SanityDefaultPreview} from '../../../preview'
-import {FIXME} from '../../../FIXME'
+import {type InputProps} from '../../types'
+import * as is from '../../utils/is'
 import {StudioReferenceInput} from '../inputs/reference/StudioReferenceInput'
-import {resolveArrayInput} from './resolveArrayInput'
-import {resolveStringInput} from './resolveStringInput'
-import {resolveNumberInput} from './resolveNumberInput'
 import {defaultInputs} from './defaultInputs'
 import {getTypeChain} from './helpers'
+import {resolveArrayInput} from './resolveArrayInput'
+import {resolveNumberInput} from './resolveNumberInput'
+import {resolveStringInput} from './resolveStringInput'
 
-function resolveComponentFromTypeVariants(
-  type: SchemaType,
-): React.ComponentType<FIXME> | undefined {
+function resolveComponentFromTypeVariants(type: SchemaType): ComponentType<FIXME> | undefined {
   if (is.type('array', type)) {
     return resolveArrayInput(type as ArraySchemaType)
   }
@@ -38,7 +42,7 @@ function resolveComponentFromTypeVariants(
 
 export function defaultResolveInputComponent(
   schemaType: SchemaType,
-): React.ComponentType<Omit<InputProps, 'renderDefault'>> {
+): ComponentType<Omit<InputProps, 'renderDefault'>> {
   if (schemaType.components?.input) return schemaType.components.input
 
   const componentFromTypeVariants = resolveComponentFromTypeVariants(schemaType)
@@ -67,7 +71,7 @@ export function defaultResolveInputComponent(
 
 export function defaultResolvePreviewComponent(
   schemaType: SchemaType,
-): React.ComponentType<Omit<PreviewProps, 'renderDefault'>> {
+): ComponentType<Omit<PreviewProps, 'renderDefault'>> {
   if (schemaType.components?.preview) return schemaType.components.preview
 
   return SanityDefaultPreview

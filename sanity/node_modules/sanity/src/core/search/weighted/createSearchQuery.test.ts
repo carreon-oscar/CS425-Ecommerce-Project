@@ -1,17 +1,40 @@
 /* eslint-disable camelcase */
-import {FINDABILITY_MVI} from '../constants'
-import {createSearchQuery, DEFAULT_LIMIT, extractTermsFromQuery} from './createSearchQuery'
-import type {SearchableType} from './types'
+import {describe, expect, it, test} from '@jest/globals'
+import {Schema} from '@sanity/schema'
+import {defineArrayMember, defineField, defineType} from '@sanity/types'
 
-const testType: SearchableType = {
-  name: 'basic-schema-test',
-  __experimental_search: [
-    {
-      path: ['title'],
-      weight: 10,
-    },
+import {FINDABILITY_MVI} from '../constants'
+import {
+  createSearchQuery,
+  DEFAULT_LIMIT,
+  extractTermsFromQuery,
+  tokenize,
+} from './createSearchQuery'
+
+const testType = Schema.compile({
+  types: [
+    defineType({
+      name: 'basic-schema-test',
+      type: 'document',
+      preview: {
+        select: {
+          title: 'title',
+        },
+      },
+      fields: [
+        defineField({
+          name: 'title',
+          type: 'string',
+          options: {
+            search: {
+              weight: 10,
+            },
+          },
+        }),
+      ],
+    }),
   ],
-}
+}).get('basic-schema-test')
 
 describe('createSearchQuery', () => {
   describe('searchTerms', () => {
@@ -23,17 +46,16 @@ describe('createSearchQuery', () => {
 
       expect(query).toEqual(
         `// findability-mvi:${FINDABILITY_MVI}\n` +
-          '*[_type in $__types && (title match $t0)]' +
+          '*[_type in $__types && (_id match $t0 || _type match $t0 || title match $t0)]' +
           '| order(_id asc)' +
-          '[$__offset...$__limit]' +
-          '{_type, _id, ...select(_type == "basic-schema-test" => { "w0": title })}',
+          '[0...$__limit]' +
+          '{_type, _id, ...select(_type == "basic-schema-test" => { "w0": _id,"w1": _type,"w2": title })}',
       )
 
       expect(params).toEqual({
         t0: 'test*',
         __types: ['basic-schema-test'],
         __limit: DEFAULT_LIMIT,
-        __offset: 0,
       })
     })
 
@@ -41,23 +63,51 @@ describe('createSearchQuery', () => {
       const {query} = createSearchQuery({
         query: 'term0',
         types: [
-          {
-            name: 'basic-schema-test',
-            __experimental_search: [
-              {
-                path: ['title'],
-                weight: 10,
-              },
-              {
-                path: ['object', 'field'],
-                weight: 5,
-              },
+          Schema.compile({
+            types: [
+              defineType({
+                name: 'basic-schema-test',
+                type: 'document',
+                preview: {
+                  select: {
+                    title: 'title',
+                  },
+                },
+                fields: [
+                  defineField({
+                    name: 'title',
+                    type: 'string',
+                    options: {
+                      search: {
+                        weight: 10,
+                      },
+                    },
+                  }),
+                  defineField({
+                    name: 'object',
+                    type: 'object',
+                    fields: [
+                      defineField({
+                        name: 'field',
+                        type: 'string',
+                        options: {
+                          search: {
+                            weight: 5,
+                          },
+                        },
+                      }),
+                    ],
+                  }),
+                ],
+              }),
             ],
-          },
+          }).get('basic-schema-test'),
         ],
       })
 
-      expect(query).toContain('*[_type in $__types && (title match $t0 || object.field match $t0)]')
+      expect(query).toContain(
+        '*[_type in $__types && (_id match $t0 || _type match $t0 || title match $t0 || object.field match $t0)]',
+      )
     })
 
     it('should have one match filter per term', () => {
@@ -66,7 +116,9 @@ describe('createSearchQuery', () => {
         types: [testType],
       })
 
-      expect(query).toContain('*[_type in $__types && (title match $t0) && (title match $t1)]')
+      expect(query).toContain(
+        '*[_type in $__types && (_id match $t0 || _type match $t0 || title match $t0) && (_id match $t1 || _type match $t1 || title match $t1)]',
+      )
       expect(params.t0).toEqual('term0*')
       expect(params.t1).toEqual('term1*')
     })
@@ -95,9 +147,9 @@ describe('createSearchQuery', () => {
 
       const result = [
         `// findability-mvi:${FINDABILITY_MVI}\n` +
-          '*[_type in $__types && (title match $t0)]{_type, _id, object{field}}',
-        '|order(_id asc)[$__offset...$__limit]',
-        '{_type, _id, ...select(_type == "basic-schema-test" => { "w0": title })}',
+          '*[_type in $__types && (_id match $t0 || _type match $t0 || title match $t0)]{_type, _id, object{field}}',
+        '|order(_id asc)[0...$__limit]',
+        '{_type, _id, ...select(_type == "basic-schema-test" => { "w0": _id,"w1": _type,"w2": title })}',
       ].join('')
 
       expect(query).toBe(result)
@@ -117,20 +169,18 @@ describe('createSearchQuery', () => {
       expect(query).toContain("!(_id in path('drafts.**'))")
     })
 
-    it('should use provided offset and limit', () => {
+    it('should use provided limit', () => {
       const {params} = createSearchQuery(
         {
           query: 'term0',
           types: [testType],
         },
         {
-          offset: 10,
           limit: 30,
         },
       )
 
-      expect(params.__limit).toEqual(40) // provided offset + limit
-      expect(params.__offset).toEqual(10)
+      expect(params.__limit).toEqual(30)
     })
 
     it('should add configured filter and params', () => {
@@ -143,7 +193,7 @@ describe('createSearchQuery', () => {
       )
 
       expect(query).toContain(
-        '*[_type in $__types && (title match $t0) && (randomCondition == $customParam)]',
+        '*[_type in $__types && (_id match $t0 || _type match $t0 || title match $t0) && (randomCondition == $customParam)]',
       )
       expect(params.customParam).toEqual('custom')
     })
@@ -191,10 +241,10 @@ describe('createSearchQuery', () => {
 
       expect(query).toEqual(
         `// findability-mvi:${FINDABILITY_MVI}\n` +
-          '*[_type in $__types && (title match $t0)]' +
+          '*[_type in $__types && (_id match $t0 || _type match $t0 || title match $t0)]' +
           '| order(exampleField desc)' +
-          '[$__offset...$__limit]' +
-          '{_type, _id, ...select(_type == "basic-schema-test" => { "w0": title })}',
+          '[0...$__limit]' +
+          '{_type, _id, ...select(_type == "basic-schema-test" => { "w0": _id,"w1": _type,"w2": title })}',
       )
     })
 
@@ -225,9 +275,9 @@ describe('createSearchQuery', () => {
 
       const result = [
         `// findability-mvi:${FINDABILITY_MVI}\n`,
-        '*[_type in $__types && (title match $t0)]| ',
+        '*[_type in $__types && (_id match $t0 || _type match $t0 || title match $t0)]| ',
         'order(exampleField desc,anotherExampleField asc,lower(mapWithField) asc)',
-        '[$__offset...$__limit]{_type, _id, ...select(_type == "basic-schema-test" => { "w0": title })}',
+        '[0...$__limit]{_type, _id, ...select(_type == "basic-schema-test" => { "w0": _id,"w1": _type,"w2": title })}',
       ].join('')
 
       expect(query).toEqual(result)
@@ -241,10 +291,10 @@ describe('createSearchQuery', () => {
 
       expect(query).toEqual(
         `// findability-mvi:${FINDABILITY_MVI}\n` +
-          '*[_type in $__types && (title match $t0)]' +
+          '*[_type in $__types && (_id match $t0 || _type match $t0 || title match $t0)]' +
           '| order(_id asc)' +
-          '[$__offset...$__limit]' +
-          '{_type, _id, ...select(_type == "basic-schema-test" => { "w0": title })}',
+          '[0...$__limit]' +
+          '{_type, _id, ...select(_type == "basic-schema-test" => { "w0": _id,"w1": _type,"w2": title })}',
       )
     })
 
@@ -270,18 +320,7 @@ describe('createSearchQuery', () => {
       const {searchSpec} = createSearchQuery(
         {
           query: 'term',
-          types: [
-            {
-              name: 'basic-schema-test',
-              __experimental_search: [
-                {
-                  path: ['some', 'field'],
-                  weight: 10,
-                  mapWith: 'dateTime',
-                },
-              ],
-            },
-          ],
+          types: [testType],
         },
 
         {tag: 'customTag'},
@@ -292,9 +331,16 @@ describe('createSearchQuery', () => {
           typeName: testType.name,
           paths: [
             {
+              weight: 1,
+              path: '_id',
+            },
+            {
+              weight: 1,
+              path: '_type',
+            },
+            {
               weight: 10,
-              path: 'some.field',
-              mapWith: 'dateTime',
+              path: 'title',
             },
           ],
         },
@@ -302,20 +348,52 @@ describe('createSearchQuery', () => {
     })
   })
 
-  describe('__experimental_search', () => {
+  describe('search config', () => {
     it('should handle indexed array fields in an optimized manner', () => {
       const {query} = createSearchQuery({
         query: 'term0 term1',
         types: [
-          {
-            name: 'numbers-in-path',
-            __experimental_search: [
-              {
-                path: ['cover', 0, 'cards', 0, 'title'],
-                weight: 1,
-              },
+          Schema.compile({
+            types: [
+              defineType({
+                name: 'numbers-in-path',
+                type: 'document',
+                fields: [
+                  defineField({
+                    name: 'cover',
+                    type: 'array',
+                    of: [
+                      defineArrayMember({
+                        type: 'object',
+                        fields: [
+                          defineField({
+                            name: 'cards',
+                            type: 'array',
+                            of: [
+                              defineArrayMember({
+                                type: 'object',
+                                fields: [
+                                  defineField({
+                                    name: 'title',
+                                    type: 'string',
+                                    options: {
+                                      search: {
+                                        weight: 1,
+                                      },
+                                    },
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
             ],
-          },
+          }).get('numbers-in-path'),
         ],
       })
 
@@ -325,36 +403,15 @@ describe('createSearchQuery', () => {
          * This is an improvement over before, where an illegal term was used (number-as-string, ala ["0"]),
          * which lead to no hits at all. */
         `// findability-mvi:${FINDABILITY_MVI}\n` +
-          '*[_type in $__types && (cover[].cards[].title match $t0) && (cover[].cards[].title match $t1)]' +
+          '*[_type in $__types && (_id match $t0 || _type match $t0 || cover[].cards[].title match $t0) && (_id match $t1 || _type match $t1 || cover[].cards[].title match $t1)]' +
           '| order(_id asc)' +
-          '[$__offset...$__limit]' +
+          '[0...$__limit]' +
           // at this point we could refilter using cover[0].cards[0].title.
           // This solution was discarded at it would increase the size of the query payload by up to 50%
 
           // we still map out the path with number
-          '{_type, _id, ...select(_type == "numbers-in-path" => { "w0": cover[0].cards[0].title })}',
+          '{_type, _id, ...select(_type == "numbers-in-path" => { "w0": _id,"w1": _type,"w2": cover[].cards[].title })}',
       )
-    })
-
-    it('should use mapper function from __experimental_search', () => {
-      const {query} = createSearchQuery({
-        query: 'test',
-        types: [
-          {
-            name: 'type1',
-            __experimental_search: [
-              {
-                path: ['pteField'],
-                weight: 1,
-                mapWith: 'pt::text',
-              },
-            ],
-          },
-        ],
-      })
-
-      expect(query).toContain('*[_type in $__types && (pt::text(pteField) match $t0)')
-      expect(query).toContain('...select(_type == "type1" => { "w0": pt::text(pteField) })')
     })
   })
 })
@@ -389,5 +446,45 @@ describe('extractTermsFromQuery', () => {
   it('should strip quotes from text containing single words', () => {
     const terms = extractTermsFromQuery(`"foo"`)
     expect(terms).toEqual([`foo`])
+  })
+})
+
+describe('tokenize', () => {
+  const tests = [
+    {input: '', expected: []},
+    {input: 'foo', expected: ['foo']},
+    {input: '0foo', expected: ['0foo']},
+    {input: 'a16z', expected: ['a16z']},
+    {input: 'foo,,, ,    ,foo,bar', expected: ['foo', 'foo', 'bar']},
+    {input: 'pho-bar, foo-bar', expected: ['pho', 'bar', 'foo', 'bar']},
+    {input: '0 foo', expected: ['0', 'foo']},
+    {input: 'foo 🤪🤪🤪', expected: ['foo', '🤪🤪🤪']},
+    {input: 'foo 🤪🤪🤪 bar', expected: ['foo', '🤪🤪🤪', 'bar']},
+    {input: '1 2 3', expected: ['1', '2', '3']},
+    {input: 'foo, bar, baz', expected: ['foo', 'bar', 'baz']},
+    {input: 'foo   , bar   , baz', expected: ['foo', 'bar', 'baz']},
+    {input: 'a.b.c', expected: ['a.b.c']},
+    {input: 'sanity.io', expected: ['sanity.io']},
+    {input: 'fourty-two', expected: ['fourty', 'two']},
+    {
+      input: 'full stop. Then new beginning',
+      expected: ['full', 'stop', 'Then', 'new', 'beginning'],
+    },
+    {input: 'about .io domains', expected: ['about', 'io', 'domains']},
+    {input: 'abc -23 def', expected: ['abc', '23', 'def']},
+    {input: 'banana&[friends]\\/ barnåler', expected: ['banana', 'friends', 'barnåler']},
+    {input: 'banana&friends barnåler', expected: ['banana', 'friends', 'barnåler']},
+    {input: 'ban*ana*', expected: ['ban', 'ana']},
+    {
+      input: '한국인은 banana 동의하지 않는다',
+      expected: ['한국인은', 'banana', '동의하지', '않는다'],
+    },
+    {input: '한국인은    동의2하지', expected: ['한국인은', '동의2하지']},
+  ]
+
+  tests.forEach(({input, expected}) => {
+    test('tokenization of search input string', () => {
+      expect(tokenize(input)).toEqual(expected)
+    })
   })
 })

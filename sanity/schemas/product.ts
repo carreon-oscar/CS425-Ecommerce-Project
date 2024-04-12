@@ -47,5 +47,11 @@ export default {
         },
       ],
     },
+    //Quantity schema for testing
+/*     {
+      name: 'quantity',
+      type: 'number',
+      title: 'Product Quantity',
+    }, */
   ],
 }

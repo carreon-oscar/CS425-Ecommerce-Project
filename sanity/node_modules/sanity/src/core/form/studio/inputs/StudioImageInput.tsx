@@ -1,14 +1,15 @@
-import React, {useCallback} from 'react'
 import imageUrlBuilder from '@sanity/image-url'
-import {SchemaType} from '@sanity/types'
-import {DEFAULT_STUDIO_CLIENT_OPTIONS} from '../../../studioClient'
-import {BaseImageInput, BaseImageInputProps} from '../../inputs/files/ImageInput'
-import {useFormBuilder} from '../../useFormBuilder'
-import {resolveUploader as defaultResolveUploader} from '../uploads/resolveUploader'
-import {FileLike} from '../uploads/types'
-import {useDocumentPreviewStore} from '../../../store'
+import {type SchemaType} from '@sanity/types'
+import {useCallback, useMemo} from 'react'
+
 import {useClient} from '../../../hooks'
 import {useTranslation} from '../../../i18n'
+import {useDocumentPreviewStore} from '../../../store'
+import {DEFAULT_STUDIO_CLIENT_OPTIONS} from '../../../studioClient'
+import {BaseImageInput, type BaseImageInputProps} from '../../inputs/files/ImageInput'
+import {useFormBuilder} from '../../useFormBuilder'
+import {resolveUploader as defaultResolveUploader} from '../uploads/resolveUploader'
+import {type FileLike} from '../uploads/types'
 import {observeImageAsset} from './client-adapters/assets'
 
 /**
@@ -46,12 +47,12 @@ export function StudioImageInput(props: ImageInputProps) {
 
   // note: type.options.sources may be an empty array and in that case we're
   // disabling selecting images from asset source  (it's a feature, not a bug)
-  const assetSources = React.useMemo(
+  const assetSources = useMemo(
     () => sourcesFromSchema || image.assetSources,
     [image, sourcesFromSchema],
   )
 
-  const builder = React.useMemo(() => imageUrlBuilder(client), [client])
+  const builder = useMemo(() => imageUrlBuilder(client), [client])
 
   const observeAsset = useCallback(
     (id: string) => observeImageAsset(documentPreviewStore, id),

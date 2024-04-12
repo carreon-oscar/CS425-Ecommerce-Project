@@ -1,8 +1,9 @@
 import {useMemo} from 'react'
-import type {Source, ConfigContext} from './types'
+
+import {type ConfigContext, type Source} from './types'
 
 /**
- * Reduce a {@link Source} down to a {@link ConfigContext}, memoizing using `React.useMemo`
+ * Reduce a {@link Source} down to a {@link ConfigContext}, memoizing using `useMemo`
  *
  * @param source - Source to convert
  * @returns A config context containing only the defined properties of that interface

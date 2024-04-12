@@ -1,10 +1,10 @@
-import type {CliCommandGroupDefinition} from '../../types'
+import {type CliCommandGroupDefinition} from '../../types'
 
 const projectGroup: CliCommandGroupDefinition = {
   name: 'projects',
   signature: '[COMMAND]',
   isGroupRoot: true,
-  description: 'Interact with projects connected to your logged in user',
+  description: 'Lists all projects associated with your logged-in account',
 }
 
 export default projectGroup

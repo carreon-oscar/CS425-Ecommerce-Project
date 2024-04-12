@@ -1,10 +1,11 @@
-import React from 'react'
-import {Reported} from './types'
+import {type ReactNode} from 'react'
+
+import {type Reported} from './types'
 
 // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
 function noop() {}
 
-function NoopTracker({children}: {children: React.ReactNode}) {
+function NoopTracker({children}: {children: ReactNode}) {
   return <>{children}</>
 }
 

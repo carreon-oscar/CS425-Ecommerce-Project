@@ -40,6 +40,8 @@ export default async function ProductPage({
               <h2 className="text-lg font-medium text-red-700">
                 ${data.price}
               </h2>
+              {/* Quantity for testing
+              <h2 className="text-lg font-medium">{data.quantity}</h2> */}
               <hr className="border-top border border-black my-2" />
               <h3 className="text-lg mb-2">Colors</h3>
               <div className="flex gap-x-1 mb-2">

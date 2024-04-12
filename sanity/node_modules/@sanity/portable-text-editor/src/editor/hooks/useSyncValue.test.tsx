@@ -1,8 +1,9 @@
+import {describe, expect, it, jest} from '@jest/globals'
 import {render, waitFor} from '@testing-library/react'
+import {createRef, type RefObject} from 'react'
 
-import React from 'react'
-import {PortableTextEditor} from '../PortableTextEditor'
 import {PortableTextEditorTester, schemaType} from '../__tests__/PortableTextEditorTester'
+import {PortableTextEditor} from '../PortableTextEditor'
 
 const initialValue = [
   {
@@ -23,7 +24,7 @@ const initialValue = [
 
 describe('useSyncValue', () => {
   it('updates span text', async () => {
-    const editorRef: React.RefObject<PortableTextEditor> = React.createRef()
+    const editorRef: RefObject<PortableTextEditor> = createRef()
     const onChange = jest.fn()
     const syncedValue = [
       {
@@ -64,7 +65,7 @@ describe('useSyncValue', () => {
     })
   })
   it('replaces span nodes with different keys inside the same children array', async () => {
-    const editorRef: React.RefObject<PortableTextEditor> = React.createRef()
+    const editorRef: RefObject<PortableTextEditor> = createRef()
     const onChange = jest.fn()
     const syncedValue = [
       {

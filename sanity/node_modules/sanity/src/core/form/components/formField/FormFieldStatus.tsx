@@ -1,9 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
+import {type ReactNode} from 'react'
+import {styled} from 'styled-components'
 
 /** @internal */
 export interface FieldStatusProps {
-  children?: React.ReactNode
+  children?: ReactNode
   maxAvatars?: number
   position?: 'top' | 'bottom'
 }

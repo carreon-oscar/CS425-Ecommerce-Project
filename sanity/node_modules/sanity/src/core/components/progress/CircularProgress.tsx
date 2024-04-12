@@ -1,7 +1,6 @@
 import {hues} from '@sanity/color'
-import {Theme} from '@sanity/ui'
-import React from 'react'
-import styled, {css} from 'styled-components'
+import {type Theme} from '@sanity/ui'
+import {css, styled} from 'styled-components'
 
 const SIZE = 43
 const STROKE_WIDTH = 3

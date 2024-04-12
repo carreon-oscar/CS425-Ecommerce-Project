@@ -1,5 +1,13 @@
-import {ComponentType} from 'react'
-import {LayoutProps, LogoProps, NavbarProps, PluginOptions, ToolMenuProps} from '../../config'
+import {type ComponentType} from 'react'
+
+import {
+  type ActiveToolLayoutProps,
+  type LayoutProps,
+  type LogoProps,
+  type NavbarProps,
+  type PluginOptions,
+  type ToolMenuProps,
+} from '../../config'
 
 export function pickToolMenuComponent(
   plugin: PluginOptions,
@@ -23,4 +31,12 @@ export function pickLogoComponent(
   plugin: PluginOptions,
 ): ComponentType<Omit<LogoProps, 'renderDefault'>> {
   return plugin.studio?.components?.logo as ComponentType<Omit<LogoProps, 'renderDefault'>>
+}
+
+export function pickActiveToolLayoutComponent(
+  plugin: PluginOptions,
+): ComponentType<Omit<ActiveToolLayoutProps, 'renderDefault'>> {
+  return plugin.studio?.components?.activeToolLayout as ComponentType<
+    Omit<ActiveToolLayoutProps, 'renderDefault'>
+  >
 }

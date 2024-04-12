@@ -1,16 +1,16 @@
 import {traverseSanitySchema} from './traverseSchema'
-import object from './validation/types/object'
-import documentVisitor from './validation/types/document'
-import reference from './validation/types/reference'
+import {type _FIXME_} from './typedefs'
 import array from './validation/types/array'
-import slug from './validation/types/slug'
-import file from './validation/types/file'
-import image from './validation/types/image'
 import block from './validation/types/block'
 import common from './validation/types/common'
-import rootType from './validation/types/rootType'
 import crossDatasetReference from './validation/types/crossDatasetReference'
-import {_FIXME_} from './typedefs'
+import documentVisitor from './validation/types/document'
+import file from './validation/types/file'
+import image from './validation/types/image'
+import object from './validation/types/object'
+import reference from './validation/types/reference'
+import rootType from './validation/types/rootType'
+import slug from './validation/types/slug'
 
 const typeVisitors = {
   array,
@@ -24,16 +24,16 @@ const typeVisitors = {
   crossDatasetReference: crossDatasetReference,
 }
 
-const getNoopVisitor = (visitorContext) => (schemaDef) => ({
+const getNoopVisitor = (visitorContext: any) => (schemaDef: any) => ({
   name: `<unnamed_type_@_index_${visitorContext.index}>`,
   ...schemaDef,
   _problems: [],
 })
 
-function combine(...visitors) {
-  return (schemaType, visitorContext) => {
+function combine(...visitors: any) {
+  return (schemaType: any, visitorContext: any) => {
     return visitors.reduce(
-      (result, visitor) => {
+      (result: any, visitor: any) => {
         const res = visitor(result, visitorContext)
         return {
           ...res,
@@ -51,7 +51,7 @@ function combine(...visitors) {
 export function validateSchema(schemaTypes: _FIXME_) {
   return traverseSanitySchema(schemaTypes, (schemaDef, visitorContext) => {
     const typeVisitor =
-      (schemaDef && schemaDef.type && typeVisitors[schemaDef.type]) ||
+      (schemaDef && schemaDef.type && (typeVisitors as any)[schemaDef.type]) ||
       getNoopVisitor(visitorContext)
 
     if (visitorContext.isRoot) {

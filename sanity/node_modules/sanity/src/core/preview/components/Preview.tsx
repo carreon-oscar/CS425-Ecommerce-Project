@@ -1,6 +1,5 @@
-import React from 'react'
-import {RenderPreviewCallbackProps} from '../../form/types'
 import {usePreviewComponent} from '../../form/form-components-hooks'
+import {type RenderPreviewCallbackProps} from '../../form/types'
 import {PreviewLoader} from '../index'
 
 /**

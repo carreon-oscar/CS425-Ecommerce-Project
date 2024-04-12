@@ -1,9 +1,11 @@
-import {createEditor, Descendant} from 'slate'
+import {beforeEach, describe, expect, it} from '@jest/globals'
 import {noop} from 'lodash'
+import {createEditor, type Descendant} from 'slate'
+
+import {keyGenerator, type Patch, PortableTextEditor} from '../..'
 import {schemaType} from '../../editor/__tests__/PortableTextEditorTester'
-import {createApplyPatch} from '../applyPatch'
 import {withPlugins} from '../../editor/plugins'
-import {keyGenerator, Patch, PortableTextEditor} from '../..'
+import {createApplyPatch} from '../applyPatch'
 import {getPortableTextMemberSchemaTypes} from '../getPortableTextMemberSchemaTypes'
 import {VOID_CHILD_KEY} from '../values'
 

@@ -1,7 +1,6 @@
 import {hues} from '@sanity/color'
-import {Theme, Card} from '@sanity/ui'
-import React from 'react'
-import styled, {css} from 'styled-components'
+import {Card, type Theme} from '@sanity/ui'
+import {css, styled} from 'styled-components'
 
 const STROKE_WIDTH = 0.5
 

@@ -1,4 +1,5 @@
-import {SanityDocument} from '@sanity/types'
+import {type SanityDocument, type SanityDocumentLike} from '@sanity/types'
+
 import {isNonNullable} from './isNonNullable'
 
 /** @internal */
@@ -45,7 +46,7 @@ export function documentIdEquals(documentId: string, equalsDocumentId: string): 
 }
 
 /** @internal */
-export function isDraft(document: SanityDocument): boolean {
+export function isDraft(document: SanityDocumentLike): boolean {
   return isDraftId(document._id)
 }
 
@@ -136,7 +137,7 @@ export function collate<T extends {_id: string; _type: string}>(documents: T[]):
 
 /** @internal */
 // Removes published documents that also has a draft
-export function removeDupes(documents: SanityDocument[]): SanityDocument[] {
+export function removeDupes(documents: SanityDocumentLike[]): SanityDocumentLike[] {
   return collate(documents)
     .map((entry) => entry.draft || entry.published)
     .filter(isNonNullable)

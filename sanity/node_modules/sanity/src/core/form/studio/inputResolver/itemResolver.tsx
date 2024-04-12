@@ -1,13 +1,14 @@
-import {isReferenceSchemaType, SchemaType} from '@sanity/types'
-import React from 'react'
-import {ReferenceItem} from '../../inputs/ReferenceInput/ReferenceItem'
+import {isReferenceSchemaType, type SchemaType} from '@sanity/types'
+import {type ComponentType} from 'react'
+
+import {type FIXME} from '../../../FIXME'
 import {PreviewItem} from '../../inputs/arrays/ArrayOfObjectsInput/List/PreviewItem'
-import {ItemProps} from '../../types'
-import {FIXME} from '../../../FIXME'
+import {ReferenceItem} from '../../inputs/ReferenceInput/ReferenceItem'
+import {type ItemProps} from '../../types'
 
 export function defaultResolveItemComponent(
   schemaType: SchemaType,
-): React.ComponentType<Omit<ItemProps, 'renderDefault'>> {
+): ComponentType<Omit<ItemProps, 'renderDefault'>> {
   if (schemaType.components?.item) return schemaType.components.item
 
   if (isReferenceSchemaType(schemaType)) {

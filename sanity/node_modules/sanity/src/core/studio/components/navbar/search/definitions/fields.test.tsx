@@ -1,5 +1,6 @@
+import {describe, expect, it} from '@jest/globals'
 import {Schema} from '@sanity/schema'
-import React from 'react'
+
 import {filterDefinitions} from './defaultFilters'
 import {createFieldDefinitions, generateFieldId, MAX_OBJECT_TRAVERSAL_DEPTH} from './fields'
 

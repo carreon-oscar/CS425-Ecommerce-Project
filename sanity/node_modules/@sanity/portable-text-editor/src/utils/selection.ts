@@ -1,6 +1,7 @@
+import {type Path, type PortableTextBlock} from '@sanity/types'
 import {isEqual} from 'lodash'
-import {Path, PortableTextBlock} from '@sanity/types'
-import {EditorSelection, EditorSelectionPoint} from '../types/editor'
+
+import {type EditorSelection, type EditorSelectionPoint} from '../types/editor'
 
 export function normalizePoint(
   point: EditorSelectionPoint,
@@ -58,7 +59,7 @@ export function normalizeSelection(
     newFocus = normalizePoint(focus, value)
   }
   if (newAnchor && newFocus) {
-    return {anchor: newAnchor, focus: newFocus}
+    return {anchor: newAnchor, focus: newFocus, backward: selection.backward}
   }
   return null
 }

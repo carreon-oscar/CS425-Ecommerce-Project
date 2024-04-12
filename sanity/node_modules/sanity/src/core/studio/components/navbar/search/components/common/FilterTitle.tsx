@@ -1,7 +1,8 @@
-import React, {useMemo} from 'react'
-import {getFilterDefinition} from '../../definitions/filters'
-import type {SearchFilter} from '../../types'
+import {useMemo} from 'react'
+
 import {useSearchState} from '../../contexts/search/useSearchState'
+import {getFilterDefinition} from '../../definitions/filters'
+import {type SearchFilter} from '../../types'
 import {getFieldFromFilter} from '../../utils/filterUtils'
 
 interface FilterTitleProps {

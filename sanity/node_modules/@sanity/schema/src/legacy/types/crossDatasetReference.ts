@@ -1,8 +1,9 @@
 import arrify from 'arrify'
 import {capitalize, pick} from 'lodash'
+
 import {resolveSearchConfigForBaseFieldPaths} from '../searchConfig/resolve'
-import {lazyGetter} from './utils'
 import {DEFAULT_OVERRIDEABLE_FIELDS} from './constants'
+import {lazyGetter} from './utils'
 
 export const REF_FIELD = {
   name: '_ref',
@@ -39,7 +40,7 @@ const CROSS_DATASET_REFERENCE_CORE = {
   jsonType: 'object',
 }
 
-function humanize(arr, conjunction) {
+function humanize(arr: any, conjunction: any) {
   const len = arr.length
   if (len === 1) {
     return arr[0]
@@ -49,12 +50,12 @@ function humanize(arr, conjunction) {
   return `${first.join(', ')} ${conjunction} ${last}`
 }
 
-function buildTitle(type) {
+function buildTitle(type: any) {
   if (!type.to || type.to.length === 0) {
     return 'Cross dataset Reference'
   }
   return `Cross dataset reference to ${humanize(
-    arrify(type.to).map((toType) => toType.title || capitalize(toType.type)),
+    arrify(type.to).map((toType: any) => toType.title || capitalize(toType.type)),
     'or',
   ).toLowerCase()}`
 }
@@ -63,7 +64,7 @@ export const CrossDatasetReferenceType = {
   get() {
     return CROSS_DATASET_REFERENCE_CORE
   },
-  extend(subTypeDef, createMemberType) {
+  extend(subTypeDef: any, createMemberType: any) {
     if (!subTypeDef.to) {
       throw new Error(
         `Missing "to" field in cross dataset reference definition. Check the type ${subTypeDef.name}`,
@@ -88,7 +89,7 @@ export const CrossDatasetReferenceType = {
     })
 
     lazyGetter(parsed, 'to', () => {
-      return arrify(subTypeDef.to).map((toType) => {
+      return arrify(subTypeDef.to).map((toType: any) => {
         return {
           ...toType,
           // eslint-disable-next-line camelcase
@@ -101,12 +102,12 @@ export const CrossDatasetReferenceType = {
 
     return subtype(parsed)
 
-    function subtype(parent) {
+    function subtype(parent: any) {
       return {
         get() {
           return parent
         },
-        extend: (extensionDef) => {
+        extend: (extensionDef: any) => {
           if (extensionDef.of) {
             throw new Error('Cannot override `of` of subtypes of "reference"')
           }

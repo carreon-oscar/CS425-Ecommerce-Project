@@ -1,4 +1,8 @@
-import type {CliCommandArguments, CliCommandContext, CliCommandDefinition} from '@sanity/cli'
+import {
+  type CliCommandArguments,
+  type CliCommandContext,
+  type CliCommandDefinition,
+} from '@sanity/cli'
 
 const helpText = `
 Examples
@@ -8,7 +12,7 @@ Examples
 const undeployCommand: CliCommandDefinition = {
   name: 'undeploy',
   signature: '',
-  description: 'Removes the deployed studio from <hostname>.sanity.studio',
+  description: 'Removes the deployed Sanity Studio from Sanity hosting',
   action: async (
     args: CliCommandArguments<Record<string, unknown>>,
     context: CliCommandContext,

@@ -1,7 +1,8 @@
-import type {ComponentType} from 'react'
-import type {PreviewConfig} from '../../preview'
-import type {BaseSchemaDefinition} from './common'
-import type {ReferenceOptions} from './reference'
+import {type ComponentType} from 'react'
+
+import {type PreviewConfig} from '../../preview'
+import {type BaseSchemaDefinition} from './common'
+import {type ReferenceOptions} from './reference'
 
 /** @public */
 export interface CrossDatasetReferenceDefinition extends BaseSchemaDefinition {
@@ -14,7 +15,7 @@ export interface CrossDatasetReferenceDefinition extends BaseSchemaDefinition {
     preview?: PreviewConfig
 
     /**
-     * @deprecated Configuring search is no longer supported
+     * @deprecated Unused. Configuring search is no longer supported.
      */
     __experimental_search?: {path: string | string[]; weight?: number; mapWith?: string}[]
   }[]

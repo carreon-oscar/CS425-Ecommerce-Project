@@ -1,7 +1,6 @@
-import React from 'react'
 import {
-  ArrayOfObjectsInputProps,
-  ArrayOfPrimitivesInputProps,
+  type ArrayOfObjectsInputProps,
+  type ArrayOfPrimitivesInputProps,
   isArrayOfObjectsInputProps,
 } from '../../../types'
 import {ArrayOfObjectOptionsInput} from './ArrayOfObjectOptionsInput'

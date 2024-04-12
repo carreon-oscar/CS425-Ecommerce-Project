@@ -1,9 +1,9 @@
 import {ErrorOutlineIcon, InfoOutlineIcon, WarningOutlineIcon} from '@sanity/icons'
-import {FormNodeValidation} from '@sanity/types'
-import {Box, Flex, Stack, Text, Theme} from '@sanity/ui'
-import React from 'react'
-import styled, {css} from 'styled-components'
-import {PortableTextMarker, RenderCustomMarkers} from '../../../types'
+import {type FormNodeValidation} from '@sanity/types'
+import {Box, Flex, Stack, Text, type Theme} from '@sanity/ui'
+import {css, styled} from 'styled-components'
+
+import {type PortableTextMarker, type RenderCustomMarkers} from '../../../types'
 import {useFormBuilder} from '../../../useFormBuilder'
 
 export interface MarkersProps {

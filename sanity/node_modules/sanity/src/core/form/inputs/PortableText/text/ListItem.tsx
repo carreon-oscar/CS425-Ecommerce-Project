@@ -1,6 +1,7 @@
-import {BlockListItemRenderProps} from '@sanity/portable-text-editor'
-import React, {useMemo} from 'react'
-import {BlockListItemProps} from '../../../types'
+import {type BlockListItemRenderProps} from '@sanity/portable-text-editor'
+import {useMemo} from 'react'
+
+import {type BlockListItemProps} from '../../../types'
 
 const DefaultComponent = (dProps: BlockListItemProps) => {
   return <>{dProps.children}</>

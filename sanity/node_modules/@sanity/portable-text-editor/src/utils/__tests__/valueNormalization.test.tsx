@@ -1,12 +1,13 @@
+import {describe, expect, it, jest} from '@jest/globals'
 import {render, waitFor} from '@testing-library/react'
+import {createRef, type RefObject} from 'react'
 
-import React from 'react'
-import {PortableTextEditor} from '../../editor/PortableTextEditor'
 import {PortableTextEditorTester, schemaType} from '../../editor/__tests__/PortableTextEditorTester'
+import {PortableTextEditor} from '../../editor/PortableTextEditor'
 
 describe('values: normalization', () => {
   it("accepts incoming value with blocks without a style or markDefs prop, but doesn't leave them without them when editing them", async () => {
-    const editorRef: React.RefObject<PortableTextEditor> = React.createRef()
+    const editorRef: RefObject<PortableTextEditor> = createRef()
     const initialValue = [
       {
         _key: '5fc57af23597',

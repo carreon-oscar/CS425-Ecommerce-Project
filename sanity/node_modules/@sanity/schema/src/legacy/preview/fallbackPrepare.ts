@@ -1,4 +1,5 @@
 import {pick} from 'lodash'
+
 import stringify from './JSONStringifyHuman'
 
 const OPTIONS = {
@@ -8,8 +9,8 @@ const OPTIONS = {
   ignoreKeys: ['_id', '_type', '_key', '_ref'],
 }
 
-export function createFallbackPrepare(fieldNames) {
-  return (value) => ({
+export function createFallbackPrepare(fieldNames: any) {
+  return (value: any) => ({
     title: stringify(pick(value, fieldNames), OPTIONS),
   })
 }

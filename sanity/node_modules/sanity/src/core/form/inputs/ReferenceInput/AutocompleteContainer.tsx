@@ -1,6 +1,6 @@
 import {Grid, useElementRect} from '@sanity/ui'
-import React, {ReactNode, ForwardedRef, forwardRef, useCallback, useState} from 'react'
-import styled, {css} from 'styled-components'
+import {type ForwardedRef, forwardRef, type ReactNode, useCallback, useState} from 'react'
+import {css, styled} from 'styled-components'
 
 const NARROW_LAYOUT = css`
   grid-template-columns: minmax(0px, 1fr);

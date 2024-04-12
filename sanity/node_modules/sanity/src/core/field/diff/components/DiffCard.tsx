@@ -1,19 +1,20 @@
-import {Path} from '@sanity/types'
-import React, {forwardRef, useMemo} from 'react'
+import {type Path} from '@sanity/types'
 import {Card, rem} from '@sanity/ui'
-import styled from 'styled-components'
+import {type ElementType, forwardRef, type HTMLProps, type ReactNode, useMemo} from 'react'
+import {styled} from 'styled-components'
+
+import {type Annotation, type Diff} from '../../types'
 import {getAnnotationAtPath, useAnnotationColor} from '../annotations'
-import {Annotation, Diff} from '../../types'
 import {DiffTooltip} from './DiffTooltip'
 
 /** @internal */
 export interface DiffCardProps {
   annotation?: Annotation
-  as?: React.ElementType | keyof JSX.IntrinsicElements
+  as?: ElementType | keyof JSX.IntrinsicElements
   diff?: Diff
   disableHoverEffect?: boolean
   path?: Path | string
-  tooltip?: {description?: React.ReactNode} | boolean
+  tooltip?: {description?: ReactNode} | boolean
 }
 
 const StyledCard = styled(Card)`
@@ -70,7 +71,7 @@ const EMPTY_PATH: Path = []
 
 /** @internal */
 export const DiffCard = forwardRef(function DiffCard(
-  props: DiffCardProps & Omit<React.HTMLProps<HTMLElement>, 'as' | 'height'>,
+  props: DiffCardProps & Omit<HTMLProps<HTMLElement>, 'as' | 'height'>,
   ref,
 ) {
   const {

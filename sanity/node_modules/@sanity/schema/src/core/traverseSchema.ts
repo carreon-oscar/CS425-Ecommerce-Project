@@ -1,4 +1,5 @@
 import {flatten, uniq} from 'lodash'
+
 import {getDupes} from '../sanity/validation/utils/getDupes'
 
 type SchemaType = Record<string, any>
@@ -53,7 +54,7 @@ export function traverseSchema(
     registry[(type && type.name) || `__unnamed_${i}`] = {}
   })
 
-  function getType(typeName) {
+  function getType(typeName: any) {
     return typeName === 'type'
       ? TYPE_TYPE
       : coreTypesRegistry[typeName] || registry[typeName] || null
@@ -61,17 +62,17 @@ export function traverseSchema(
 
   const duplicateNames = uniq(flatten(getDupes(typeNames)))
 
-  function isDuplicate(typeName) {
+  function isDuplicate(typeName: any) {
     return duplicateNames.includes(typeName)
   }
   function getTypeNames() {
     return typeNames.concat(coreTypeNames)
   }
-  function isReserved(typeName) {
+  function isReserved(typeName: any) {
     return typeName === 'type' || reservedTypeNames.includes(typeName)
   }
 
-  const visitType = (isRoot) => (typeDef, index) => {
+  const visitType = (isRoot: any) => (typeDef: any, index: any) => {
     return visitor(typeDef, {
       visit: visitType(false),
       isRoot,

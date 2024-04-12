@@ -1,4 +1,6 @@
-import type {OperatorNumberRangeValue} from './common'
+import {describe, expect, it} from '@jest/globals'
+
+import {type OperatorNumberRangeValue} from './common'
 import {numberOperators} from './numberOperators'
 
 const fieldPath = 'title'

@@ -1,6 +1,6 @@
-import {warning, HELP_IDS} from '../createValidationResult'
+import {HELP_IDS, warning} from '../createValidationResult'
 
-export default (typeDef, visitorContext) => {
+export default (typeDef: any, visitorContext: any) => {
   const problems = []
 
   if (typeDef.options && typeDef.options.slugifyFn) {

@@ -1,5 +1,4 @@
-import React from 'react'
-import {ArrayOfObjectsInputProps} from '../../../types'
+import {type ArrayOfObjectsInputProps} from '../../../types'
 import {GridArrayInput} from './Grid/GridArrayInput'
 import {ListArrayInput} from './List/ListArrayInput'
 

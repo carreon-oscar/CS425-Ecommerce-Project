@@ -1,5 +1,5 @@
 import {codemodAction} from '../../actions/codemod/codemodAction'
-import type {CliCommandDefinition} from '../../types'
+import {type CliCommandDefinition} from '../../types'
 
 const helpText = `
 Runs a given code modification script on the current studio folder.
@@ -24,7 +24,7 @@ Examples
 const codemodCommand: CliCommandDefinition = {
   name: 'codemod',
   signature: '[CODEMOD_NAME]',
-  description: 'Runs a code modification script',
+  description: 'Updates Sanity Studio codebase with a code modification script',
   helpText,
   action: codemodAction,
 }

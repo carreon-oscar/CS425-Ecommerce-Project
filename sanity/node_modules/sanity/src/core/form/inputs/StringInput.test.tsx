@@ -1,5 +1,6 @@
+import {describe, expect, it} from '@jest/globals'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
+
 import {renderStringInput} from '../../../../test/form/renderStringInput'
 import {StringInput} from './StringInput'
 

@@ -1,8 +1,9 @@
-import type {Image, ImageCrop, ImageHotspot} from '@sanity/types'
-import React from 'react'
-import {DiffTooltip, useDiffAnnotationColor} from '../../../diff'
+import {type Image, type ImageCrop, type ImageHotspot} from '@sanity/types'
+import {type SVGProps} from 'react'
+
 import {useTranslation} from '../../../../i18n'
-import type {ObjectDiff} from '../../../types'
+import {DiffTooltip, useDiffAnnotationColor} from '../../../diff'
+import {type ObjectDiff} from '../../../types'
 import {hexToRgba} from './helpers'
 
 interface HotspotCropSVGProps {
@@ -15,7 +16,7 @@ interface HotspotCropSVGProps {
 }
 
 export function HotspotCropSVG(
-  props: HotspotCropSVGProps & Omit<React.SVGProps<SVGElement>, 'ref' | 'width' | 'height'>,
+  props: HotspotCropSVGProps & Omit<SVGProps<SVGElement>, 'ref' | 'width' | 'height'>,
 ) {
   const {crop, diff, hash, hotspot, width = 100, height = 100, ...restProps} = props
   const {t} = useTranslation()
@@ -87,7 +88,7 @@ function CropSVG({
   height,
   ...restProps
 }: {crop: ImageCrop; width: number; height: number} & Omit<
-  React.SVGProps<SVGRectElement>,
+  SVGProps<SVGRectElement>,
   'width' | 'height'
 >) {
   const rectProps = {
@@ -107,7 +108,7 @@ function HotspotSVG({
   height,
   ...restProps
 }: {hotspot: ImageHotspot; offset?: number; width: number; height: number} & Omit<
-  React.SVGProps<SVGEllipseElement>,
+  SVGProps<SVGEllipseElement>,
   'width' | 'height'
 >) {
   const ellipseProps = {

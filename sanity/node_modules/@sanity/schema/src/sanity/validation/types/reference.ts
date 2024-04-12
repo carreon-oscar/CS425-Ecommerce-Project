@@ -1,16 +1,17 @@
-import {error, HELP_IDS} from '../createValidationResult'
 import {flatten, isPlainObject} from 'lodash'
-import {getDupes} from '../utils/getDupes'
-import {SchemaValidationResult} from '../../typedefs'
 
-function normalizeToProp(typeDef) {
+import {type SchemaValidationResult} from '../../typedefs'
+import {error, HELP_IDS} from '../createValidationResult'
+import {getDupes} from '../utils/getDupes'
+
+function normalizeToProp(typeDef: any) {
   if (Array.isArray(typeDef.to)) {
     return typeDef.to
   }
   return typeDef.to ? [typeDef.to] : typeDef.to
 }
 
-export default (typeDef, visitorContext) => {
+export default (typeDef: any, visitorContext: any) => {
   const isValidTo = Array.isArray(typeDef.to) || isPlainObject(typeDef.to)
   const normalizedTo = normalizeToProp(typeDef)
 

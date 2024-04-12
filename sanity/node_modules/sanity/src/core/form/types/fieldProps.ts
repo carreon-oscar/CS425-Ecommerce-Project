@@ -1,35 +1,36 @@
 import {
-  ArraySchemaType,
-  BooleanSchemaType,
-  CrossDatasetReferenceValue,
-  FileValue,
-  FormNodeValidation,
-  GeopointValue,
-  ImageValue,
-  NumberSchemaType,
-  ObjectSchemaType,
-  Path,
-  ReferenceValue,
-  SchemaType,
-  SlugValue,
-  StringSchemaType,
+  type ArraySchemaType,
+  type BooleanSchemaType,
+  type CrossDatasetReferenceValue,
+  type FileValue,
+  type FormNodeValidation,
+  type GeopointValue,
+  type ImageValue,
+  type NumberSchemaType,
+  type ObjectSchemaType,
+  type Path,
+  type ReferenceValue,
+  type SchemaType,
+  type SlugValue,
+  type StringSchemaType,
 } from '@sanity/types'
-import {ReactElement, ReactNode} from 'react'
-import {FormNodePresence} from '../../presence'
-import {DocumentFieldAction} from '../../config'
+import {type ReactElement, type ReactNode} from 'react'
+
+import {type DocumentFieldAction} from '../../config'
+import {type FormNodePresence} from '../../presence'
 import {
-  ArrayOfObjectsInputProps,
-  ArrayOfPrimitivesInputProps,
-  BooleanInputProps,
-  NumberInputProps,
-  ObjectInputProps,
-  StringInputProps,
+  type ArrayOfObjectsInputProps,
+  type ArrayOfPrimitivesInputProps,
+  type BooleanInputProps,
+  type NumberInputProps,
+  type ObjectInputProps,
+  type StringInputProps,
 } from './inputProps'
 
 /** @internal @deprecated DO NOT USE */
 export interface FieldCommentsProps {
   hasComments: boolean
-  button: React.ReactNode
+  button: ReactNode
   isAddingComment: boolean
 }
 
@@ -42,7 +43,7 @@ export interface BaseFieldProps {
   /** @internal @deprecated DO NOT USE */
   __internal_comments?: FieldCommentsProps
   /** @internal @deprecated ONLY USED BY AI ASSIST PLUGIN */
-  __internal_slot?: React.ReactNode
+  __internal_slot?: ReactNode
   schemaType: SchemaType
   title: string | undefined
   description: string | undefined
@@ -65,9 +66,9 @@ export interface BaseFieldProps {
 /**
  * @hidden
  * @public */
-export interface ObjectFieldProps<T = Record<string, any>> extends BaseFieldProps {
+export interface ObjectFieldProps<T = Record<string, unknown>> extends BaseFieldProps {
   schemaType: ObjectSchemaType
-  value: {[field in string]: unknown} | undefined
+  value: T | undefined
   collapsed?: boolean
   collapsible?: boolean
   onCollapse: () => void

@@ -1,7 +1,7 @@
-import React from 'react'
-import {Breadcrumbs, Text} from '@sanity/ui'
 import {ChevronRightIcon} from '@sanity/icons'
-import {ChangeTitlePath, FieldChangeNode} from '../../types'
+import {Breadcrumbs, Text} from '@sanity/ui'
+
+import {type ChangeTitlePath, type FieldChangeNode} from '../../types'
 import {ChangeTitleSegment} from './ChangeTitleSegment'
 
 /** @internal */

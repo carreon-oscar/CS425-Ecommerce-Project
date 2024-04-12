@@ -1,7 +1,8 @@
 import {LayerProvider} from '@sanity/ui'
-import React from 'react'
+import {type ReactNode} from 'react'
+
+import {type ZIndexContextValue} from '../zOffsets/types'
 import {useZIndex} from '../zOffsets/useZIndex'
-import {ZIndexContextValue} from '../zOffsets/types'
 
 /** @internal */
 export type ZIndexContextValueKey = keyof ZIndexContextValue
@@ -14,7 +15,7 @@ export function LegacyLayerProvider({
   children,
   zOffset: zOffsetKey,
 }: {
-  children: React.ReactNode
+  children: ReactNode
   zOffset: ZIndexContextValueKey
 }) {
   const zIndex = useZIndex()

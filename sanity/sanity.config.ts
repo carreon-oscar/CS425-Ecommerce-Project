@@ -16,3 +16,6 @@ export default defineConfig({
     types: schemaTypes,
   },
 })
+
+//test project id for sanity: 00ljfman
+//main project id for sanity: 6uopnzeq

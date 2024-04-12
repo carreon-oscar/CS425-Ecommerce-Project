@@ -22,7 +22,7 @@ const whileInViewVariants = {
 };
 
 async function getData() {
-  // get the 4 most most recently added products
+  // get the 24 most most recently added products
   const query = `*[_type == "product"][0...24] | order(_createdAt desc){
     _id,
       price,

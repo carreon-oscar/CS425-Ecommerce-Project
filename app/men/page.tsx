@@ -2,11 +2,12 @@ import CategoryPage from '../_components/category-page';
 import { Product } from '../interface';
 import { client } from '../lib/santiy';
 async function getData() {
-  // get the 4 most most recently added products
-  const query = `*[_type == "product"][0...4] | order(_createdAt desc){
+  // get the 14 most most recently added Men's products
+  const query = `*[_type == "product" && category->name == "Men"][0...14] | order(_createdAt desc){
     _id,
       price,
       name,
+      quantity,
       "slug": slug.current,
       "categoryName": category->name,
       "imageUrl": images[0].asset->url

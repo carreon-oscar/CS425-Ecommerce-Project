@@ -1,30 +1,35 @@
-import React, {useEffect, useState} from 'react'
-import {map, catchError} from 'rxjs/operators'
-import {combineLatest, of} from 'rxjs'
 import {ErrorBoundary} from '@sanity/ui'
-import {ConfigResolutionError, Source, Workspace} from '../../config'
+import {type ComponentType, type ReactNode, useEffect, useState} from 'react'
+import {combineLatest, of} from 'rxjs'
+import {catchError, map} from 'rxjs/operators'
+
+import {
+  ConfigResolutionError,
+  type Source,
+  type Workspace,
+  type WorkspaceSummary,
+} from '../../config'
 import {useActiveWorkspace} from '../activeWorkspaceMatcher'
-import {WorkspaceProvider} from '../workspace'
 import {SourceProvider} from '../source'
+import {WorkspaceProvider} from '../workspace'
 import {WorkspaceRouterProvider} from './WorkspaceRouterProvider'
 
 // TODO: work on error handler
 // import {flattenErrors} from './flattenErrors'
 
 interface WorkspaceLoaderProps {
-  children: React.ReactNode
-  ConfigErrorsComponent: React.ComponentType
-  LoadingComponent: React.ComponentType
+  children: ReactNode
+  ConfigErrorsComponent: ComponentType
+  LoadingComponent: ComponentType
 }
 
-function WorkspaceLoader({
-  children,
-  LoadingComponent,
-}: Omit<WorkspaceLoaderProps, 'ConfigErrorsComponent'>) {
+/**
+ * @internal
+ */
+export function useWorkspaceLoader(activeWorkspace: WorkspaceSummary) {
   const [error, handleError] = useState<unknown>(null)
   if (error) throw error
 
-  const {activeWorkspace} = useActiveWorkspace()
   const [workspace, setWorkspace] = useState<Workspace | null>(null)
 
   useEffect(() => {
@@ -68,6 +73,15 @@ function WorkspaceLoader({
     return () => subscription.unsubscribe()
   }, [activeWorkspace])
 
+  return workspace
+}
+
+function WorkspaceLoader({
+  children,
+  LoadingComponent,
+}: Omit<WorkspaceLoaderProps, 'ConfigErrorsComponent'>) {
+  const {activeWorkspace} = useActiveWorkspace()
+  const workspace = useWorkspaceLoader(activeWorkspace)
   if (!workspace) return <LoadingComponent />
 
   // TODO: may need a screen if one of the sources is not logged in. e.g. it
@@ -89,6 +103,9 @@ function WorkspaceLoader({
   )
 }
 
+/**
+ * @internal
+ */
 function WorkspaceLoaderBoundary({ConfigErrorsComponent, ...props}: WorkspaceLoaderProps) {
   const [{error}, setError] = useState<{error: unknown}>({error: null})
 

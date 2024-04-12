@@ -1,5 +1,6 @@
-import React from 'react'
-import {TrackerContext} from './types'
+import {type Context as ReactContext, useContext, useLayoutEffect, useRef} from 'react'
+
+import {type TrackerContext} from './types'
 
 /** @internal */
 export type ReporterHook<Payload> = (
@@ -24,7 +25,7 @@ export type IsEqualFunction<Value> = (a: Value, b: Value) => boolean
 
 /** @internal */
 export function createUseReporter<Value>(
-  Context: React.Context<TrackerContext<Value>>,
+  Context: ReactContext<TrackerContext<Value>>,
 ): ReporterHook<Value> {
   return function useReporter(
     // No reporting will happen if id=null
@@ -32,10 +33,10 @@ export function createUseReporter<Value>(
     value: Value | (() => Value),
     isEqual: IsEqualFunction<Value> = Object.is,
   ) {
-    const {add, update, remove} = React.useContext(Context)
-    const previous = React.useRef<Value>()
+    const {add, update, remove} = useContext(Context)
+    const previous = useRef<Value>()
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
       if (id === null) {
         return noop
       }
@@ -47,7 +48,7 @@ export function createUseReporter<Value>(
       }
     }, [add, id, remove, value])
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
       const current = read(value)
       if (
         typeof previous.current !== 'undefined' &&

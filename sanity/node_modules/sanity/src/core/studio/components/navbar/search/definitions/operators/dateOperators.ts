@@ -7,25 +7,26 @@ import {
   startOfToday,
   sub,
 } from 'date-fns'
+
 import {
   SearchButtonValueDate,
   SearchButtonValueDateLast,
   SearchButtonValueDateRange,
 } from '../../components/filters/common/ButtonValue'
-import {SearchFilterDateEqualInput} from '../../components/filters/filter/inputs/date/DateEqual'
 import {SearchFilterDateAfterInput} from '../../components/filters/filter/inputs/date/DateAfter'
 import {SearchFilterDateBeforeInput} from '../../components/filters/filter/inputs/date/DateBefore'
+import {SearchFilterDateEqualInput} from '../../components/filters/filter/inputs/date/DateEqual'
 import {SearchFilterDateLastInput} from '../../components/filters/filter/inputs/date/DateLast'
 import {SearchFilterDateRangeInput} from '../../components/filters/filter/inputs/date/DateRange'
-import {SearchFilterDateTimeEqualInput} from '../../components/filters/filter/inputs/date/DateTimeEqual'
 import {SearchFilterDateTimeAfterInput} from '../../components/filters/filter/inputs/date/DateTimeAfter'
 import {SearchFilterDateTimeBeforeInput} from '../../components/filters/filter/inputs/date/DateTimeBefore'
+import {SearchFilterDateTimeEqualInput} from '../../components/filters/filter/inputs/date/DateTimeEqual'
 import {SearchFilterDateTimeRangeInput} from '../../components/filters/filter/inputs/date/DateTimeRange'
 import {
   defineSearchOperator,
-  SearchOperatorButtonValue,
-  SearchOperatorInput,
-  SearchOperatorParams,
+  type SearchOperatorButtonValue,
+  type SearchOperatorInput,
+  type SearchOperatorParams,
 } from './operatorTypes'
 import {toJSON} from './operatorUtils'
 
@@ -52,7 +53,7 @@ export interface OperatorDateLastValue {
 }
 
 // @todo: don't manually cast `buttonValueComponent` and `inputComponent` once
-// we understand why `yarn etl` fails with 'Unable to follow symbol' errors
+// we understand why `npm run etl` fails with 'Unable to follow symbol' errors
 
 // Common values shared between date & datetime defs
 const COMMON = {

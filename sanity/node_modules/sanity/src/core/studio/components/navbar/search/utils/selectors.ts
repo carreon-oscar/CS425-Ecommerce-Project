@@ -1,12 +1,12 @@
-import type {ObjectSchemaType, Schema, SchemaType} from '@sanity/types'
-import {getSearchableTypes} from '../../../../../search/common/utils'
-import {SearchableType} from '../../../../../search'
+import {type ObjectSchemaType, type Schema, type SchemaType} from '@sanity/types'
+
+import {getSearchableTypes} from '../../../../../search'
 
 /**
  * Returns a list of all available document types filtered by a search string.
  * Types containing the search string in its `title` or `name` will be returned.
  */
-export function getSelectableOmnisearchTypes(schema: Schema, typeFilter: string): SearchableType[] {
+export function getSelectableOmnisearchTypes(schema: Schema, typeFilter: string): SchemaType[] {
   return getSearchableOmnisearchTypes(schema)
     .filter((type) => inTypeFilter(type, typeFilter))
     .sort(sortTypes)
@@ -22,7 +22,7 @@ export function getSearchableOmnisearchTypes(schema: Schema): ObjectSchemaType[]
   )
 }
 
-export function sortTypes(a: SearchableType, b: SearchableType): number {
+export function sortTypes(a: SchemaType, b: SchemaType): number {
   return (a.title ?? a.name).localeCompare(b.title ?? b.name)
 }
 

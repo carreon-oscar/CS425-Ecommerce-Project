@@ -1,17 +1,20 @@
-import React, {
+import Debug from 'debug'
+import {
+  type CSSProperties,
   memo,
   startTransition,
+  type SyntheticEvent,
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react'
-import Debug from 'debug'
+
 import {calculateStyles} from './calculateStyles'
-import {DEFAULT_HOTSPOT, DEFAULT_CROP} from './constants'
+import {DEFAULT_CROP, DEFAULT_HOTSPOT} from './constants'
 import {HotspotImageContainer} from './HotspotImage.styles'
-import type {Crop, Hotspot} from './types'
+import {type Crop, type Hotspot} from './types'
 
 const debug = Debug('sanity-imagetool')
 
@@ -33,9 +36,9 @@ export interface HotspotImageProps {
   alignX?: 'left' | 'center' | 'right'
   alignY?: 'top' | 'center' | 'bottom'
   className?: string
-  style?: React.CSSProperties
+  style?: CSSProperties
   alt?: string
-  onError?: (event: React.SyntheticEvent<HTMLImageElement, Event>) => void
+  onError?: (event: SyntheticEvent<HTMLImageElement, Event>) => void
   onLoad?: () => void
 }
 

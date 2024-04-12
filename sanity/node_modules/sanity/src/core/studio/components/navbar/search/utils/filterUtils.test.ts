@@ -1,11 +1,13 @@
+import {describe, expect, it} from '@jest/globals'
 import {Schema} from '@sanity/schema'
-import {SearchableType} from '../../../../../search'
+import {type SchemaType} from '@sanity/types'
+
 import {filterDefinitions} from '../definitions/defaultFilters'
 import {createFieldDefinitionDictionary, createFieldDefinitions} from '../definitions/fields'
 import {createFilterDefinitionDictionary} from '../definitions/filters'
 import {createOperatorDefinitionDictionary} from '../definitions/operators'
 import {operatorDefinitions} from '../definitions/operators/defaultOperators'
-import {SearchFilter} from '../types'
+import {type SearchFilter} from '../types'
 import {generateFilterQuery, narrowDocumentTypes, validateFilter} from './filterUtils'
 
 const mockSchema = Schema.compile({
@@ -86,20 +88,10 @@ describe('narrowDocumentTypes', () => {
   })
 
   it('should create a list of narrowed document types based on selected types', () => {
-    const selectedTypes: SearchableType[] = [
-      {
-        // eslint-disable-next-line camelcase
-        __experimental_search: [],
-        name: 'article',
-        title: 'Article',
-      },
-      {
-        // eslint-disable-next-line camelcase
-        __experimental_search: [],
-        name: 'gallery',
-        title: 'Gallery',
-      },
-    ]
+    const selectedTypes = [
+      {name: 'article', title: 'Article'},
+      {name: 'gallery', title: 'Gallery'},
+    ] as SchemaType[]
 
     const narrowedDocumentTypes = narrowDocumentTypes({
       fieldDefinitions: fieldDefinitionDictionary,

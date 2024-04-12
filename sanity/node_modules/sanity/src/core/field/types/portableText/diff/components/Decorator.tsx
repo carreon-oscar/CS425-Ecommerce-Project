@@ -1,5 +1,4 @@
-import React from 'react'
-import styled from 'styled-components'
+import {styled} from 'styled-components'
 
 const DecoratorWrapper = styled.span<{decoration: string}>`
   display: inline;
