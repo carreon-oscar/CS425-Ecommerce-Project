@@ -9,6 +9,7 @@
 
 # testing
 /coverage
+/app/test-client/
 
 #helper functions
 /helper
