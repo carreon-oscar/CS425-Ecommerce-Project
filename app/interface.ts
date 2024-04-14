@@ -33,6 +33,7 @@ export interface ProductStripe {
   currency: string;
   image: any;
   price_id: string;
+  _id: string;
 }
 
 export interface ImageList {
