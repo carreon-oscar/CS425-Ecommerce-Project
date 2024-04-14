@@ -27,6 +27,12 @@ export default {
         source: 'name',
       },
     },
+    //Quantity schema for testing
+    {
+      name: 'quantity',
+      type: 'number',
+      title: 'Product Quantity',
+    },
     {
       name: 'price',
       title: 'Price',
@@ -47,11 +53,5 @@ export default {
         },
       ],
     },
-    //Quantity schema for testing
-/*     {
-      name: 'quantity',
-      type: 'number',
-      title: 'Product Quantity',
-    }, */
   ],
 }
