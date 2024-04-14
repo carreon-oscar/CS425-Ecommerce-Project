@@ -27,7 +27,7 @@ export default {
         source: 'name',
       },
     },
-    //Quantity schema for testing
+    //Quantity schema for products
     {
       name: 'quantity',
       type: 'number',
