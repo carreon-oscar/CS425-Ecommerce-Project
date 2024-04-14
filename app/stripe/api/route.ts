@@ -1,8 +1,8 @@
+import { ProductStripe } from '@/app/interface';
 import { redirect } from 'next/navigation';
 const stripe = require('stripe')(process.env.NEXT_SECRET_STRIPE_KEY);
 
 interface Product {
-  price_id: string;
   quantity: number;
 }
 
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
 
   const lineItems = [];
   const rates = await createTaxRates();
-  for (const product of Object.values<Product>(cartDetails)) {
+  for (const product of Object.values<Product & ProductStripe>(cartDetails)) {
     lineItems.push({
       price: product.price_id,
       quantity: product.quantity,
