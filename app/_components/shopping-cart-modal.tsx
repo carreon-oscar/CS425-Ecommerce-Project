@@ -6,6 +6,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useShoppingCart } from 'use-shopping-cart';
 
 export default function ShoppingCartModal() {
@@ -26,6 +27,8 @@ export default function ShoppingCartModal() {
   } = useShoppingCart();
 
   // console.log(cartDetails);
+
+  function handleCheckout() {}
 
   //sheet modal provided by shadcn component library
   return (
@@ -61,27 +64,14 @@ export default function ShoppingCartModal() {
                 <p>Subtotal:</p>
                 <p>${totalPrice}</p>
               </div>
-              {/* data sent using POST with a form is sent in the request body */}
-              <form action="/stripe/api" method="POST">
-                <input
-                  type="hidden"
-                  name="cartDetails"
-                  id="data-input"
-                  value={JSON.stringify(cartDetails)}
-                />
+              <Link href="/cart-preview">
                 <button
-                  type="submit"
+                  onClick={() => handleCartClick()}
                   className="bg-stone-800 text-slate-100 rounded-2xl py-2 mt-2 w-full hover:opacity-75 transition-opacity"
                 >
                   Checkout
                 </button>
-              </form>
-              {/* <button
-                onClick={handleCheckoutClick}
-                className="bg-stone-800 text-slate-100 rounded-2xl py-2 mt-2 w-full hover:opacity-75 transition-opacity"
-              >
-                Checkout
-              </button> */}
+              </Link>
             </div>
           </div>
         )}
@@ -146,7 +136,7 @@ function ProductCard({
                 setItemQuantity(id, parseInt(e.target.value, 10));
               }}
               id="location"
-              defaultValue={quantity}
+              value={quantity}
               className="ml-2 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 hover:cursor-pointer"
             >
               {options}
