@@ -53,5 +53,15 @@ export default {
         },
       ],
     },
+    {
+      name: 'subcategory',
+      title: 'Product SubCategory',
+      type: 'reference',
+      to: [
+        {
+          type: 'subcategory',
+        },
+      ],
+    },
   ],
 }
