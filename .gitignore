@@ -9,6 +9,10 @@
 
 # testing
 /coverage
+/app/test-client/
+
+#helper functions
+/helper
 
 # next.js
 /.next/

@@ -1,55 +1,28 @@
 'use client';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
 import Image from 'next/image';
-import Link from 'next/link';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useShoppingCart } from 'use-shopping-cart';
-
-export default function ShoppingCartModal() {
+export default function CartPreview() {
   const {
     cartCount,
-    shouldDisplayCart,
-    handleCartClick,
-    cartDetails,
     totalPrice,
-    redirectToCheckout,
-  }: {
-    cartCount: number;
-    shouldDisplayCart: boolean;
-    handleCartClick: () => void;
-    cartDetails: {};
-    totalPrice: number;
-    redirectToCheckout: (sessionId?: string) => Promise<any>;
-  } = useShoppingCart();
+    cartDetails,
+  }: { cartCount: number; totalPrice: number; cartDetails: {} } =
+    useShoppingCart();
 
-  console.log(cartDetails);
-
-  function handleCheckout() {}
-
-  //sheet modal provided by shadcn component library
   return (
-    <Sheet open={shouldDisplayCart} onOpenChange={() => handleCartClick()}>
-      <SheetContent className="sm:max-w-lg w-[90vw]">
-        <SheetHeader>
-          <SheetTitle>Bag {cartCount > 0 && `(${cartCount})`}</SheetTitle>
-        </SheetHeader>
-        {cartCount === 0 && (
-          <h1 className="h-full flex flex-col justify-center items-center text-lg">
-            Your bag is empty
-          </h1>
-        )}
-        {cartCount > 0 && (
-          <div className="h-full flex flex-col justify-between">
-            <div className="mt-8 flex-1 overflow-y-auto">
+    <>
+      <div className="max-w-2xl lg:max-w-7xl w-full mx-auto mb-4">
+        <div className="flex">
+          <div className="grow-[3] mr-4 bg-gray-100 p-2">
+            <div className="text-2xl font-semibold border-b mb-4 pb-2 border-gray-200">
+              Your Bag
+            </div>
+            {cartCount > 0 ? (
               <ul className="-my-6 divide-y divide-gray-200">
                 {/* shape of product object defined in addItem() documentation */}
                 {Object.values(cartDetails).map((product: any) => (
-                  <ProductCard
+                  <Product
                     key={product.id}
                     name={product.name}
                     price={product.price}
@@ -60,29 +33,67 @@ export default function ShoppingCartModal() {
                   />
                 ))}
               </ul>
-            </div>
-            <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-              <div className="flex justify-between text-base font-medium text-gray-900">
-                <p>Subtotal:</p>
-                <p>${totalPrice}</p>
-              </div>
-              <Link href="/cart-preview">
-                <button
-                  onClick={() => handleCartClick()}
-                  className="bg-stone-800 text-slate-100 rounded-2xl py-2 mt-2 w-full hover:opacity-75 transition-opacity"
-                >
-                  Checkout
-                </button>
-              </Link>
-            </div>
+            ) : (
+              <div>There are currently no items in your bag</div>
+            )}
           </div>
-        )}
-      </SheetContent>
-    </Sheet>
+          <div className="grow bg-gray-200 p-4">
+            <div className="text-lg">
+              Subtotal ({cartCount} items):{' '}
+              <span className="font-bold">${totalPrice}</span>
+            </div>
+            <CheckoutSubmit
+              action="stripe/api"
+              method="POST"
+              cartDetails={cartDetails}
+              title="Checkout"
+            />
+            <CheckoutSubmit
+              action="coinbase/api"
+              method="POST"
+              cartDetails={cartDetails}
+              title="Checkout with crypto"
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
-function ProductCard({
+function CheckoutSubmit({
+  action,
+  method,
+  cartDetails,
+  title,
+}: {
+  action: string;
+  method: string;
+  cartDetails: {};
+  title: string;
+}) {
+  {
+    /* data sent using POST with a form is sent in the request body */
+  }
+  return (
+    <form action={action} method={method}>
+      <input
+        type="hidden"
+        name="cartDetails"
+        id="data-input"
+        value={JSON.stringify(cartDetails)}
+      />
+      <button
+        type="submit"
+        className="bg-stone-800 text-slate-100 rounded-2xl py-2 mt-2 w-full hover:opacity-75 transition-opacity"
+      >
+        {title}
+      </button>
+    </form>
+  );
+}
+
+function Product({
   name,
   price,
   image,
@@ -97,13 +108,8 @@ function ProductCard({
   id: string;
   docID: string;
 }) {
-  const {
-    removeItem,
-    setItemQuantity,
-  }: {
-    removeItem: (id: string) => undefined;
-    setItemQuantity: (id: string, quantity: number) => undefined;
-  } = useShoppingCart();
+  const { removeItem, setItemQuantity } = useShoppingCart();
+
   //how many options will be displayed in the select dropdown
   //default val will be 10 or < 10 if the quantity in stock is
   const [optionRange, setOptionRange] = useState<number>(10);
@@ -111,7 +117,7 @@ function ProductCard({
   const [displayedQuantity, setDisplayedQuantity] = useState<number>(quantity);
   const firstRender = useRef(true);
   useEffect(() => {
-    (async () => {
+    async function checkQuantity() {
       const response = await fetch('/sanity/api', {
         method: 'POST',
         headers: {
@@ -130,7 +136,7 @@ function ProductCard({
       */
       if (inventoryQuantity <= 10 && inventoryQuantity !== -1) {
         setOptionRange(inventoryQuantity);
-        /* Ensure that the displayed quantity is not greater than the 
+        /* Update the displayed quantity if its greater than the 
           amount on hand. Update the quanity of product with id in the cart
           to ensure the reduced quantity is reflected in the cart state */
         if (displayedQuantity > inventoryQuantity) {
@@ -138,29 +144,37 @@ function ProductCard({
           setItemQuantity(id, inventoryQuantity);
         }
       }
-    })();
+    }
     /* don't set displayedQuantity on the first render (it's already been initialized)
     update displayedQuantity on changes to quantity (the quantity in the cart state)
     due to the select option */
     if (!firstRender.current) {
       setDisplayedQuantity(quantity);
     } else {
+      //on first render, we want to cross check with the inventory that's in stock
+      //right away otherwise we wouldn't check for 2 seconds until the interval below is called
+      checkQuantity();
       firstRender.current = false;
     }
-  });
+    const interval: NodeJS.Timeout = setInterval(checkQuantity, 2000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [quantity, displayedQuantity]);
 
   const options = [];
   for (let value = 1; value <= optionRange; ++value)
     options.push(<option value={value}>{value}</option>);
 
   return (
-    <li className="flex py-6">
-      <div className="h-24 w-24 overflow-hidden rounded-md border border-gray-200">
+    <li key={id} className="flex justify-between py-6">
+      <div className="h-40 w-40 overflow-hidden rounded-md border border-gray-200">
         <Image
           src={image as string}
           alt="Product Image"
-          width={100}
-          height={100}
+          width={200}
+          height={200}
         />
       </div>
       <div className="ml-4 flex flex-1 flex-col">
@@ -170,6 +184,11 @@ function ProductCard({
             <p>${price}</p>
           </div>
           <p className="text-sm text-gray-500">Color</p>
+          {optionRange > 0 && optionRange <= 10 && (
+            <div className="text-red-500 text-sm">
+              Only {optionRange} left in stock.
+            </div>
+          )}
         </div>
         <div className="flex flex-1 items-end justify-between text-sm">
           <div>
@@ -179,13 +198,13 @@ function ProductCard({
             >
               Quantity
             </label>
-
             <select
               onChange={(e) => {
                 setItemQuantity(id, parseInt(e.target.value, 10));
               }}
               id="location"
               value={displayedQuantity}
+              defaultValue={1}
               className="ml-2 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 hover:cursor-pointer"
             >
               {options}
@@ -202,3 +221,5 @@ function ProductCard({
     </li>
   );
 }
+
+export const dynamic = 'force-dynamic';

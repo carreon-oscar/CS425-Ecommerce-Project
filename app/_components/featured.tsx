@@ -1,4 +1,5 @@
 import FeaturedGrid from './featured-grid';
+import ImageCarousel from './image-carousel';
 
 export default function Featured() {
   return (
@@ -9,6 +10,7 @@ export default function Featured() {
         </h1>
       </div>
       <FeaturedGrid />
+      <ImageCarousel></ImageCarousel>
     </>
   );
 }
