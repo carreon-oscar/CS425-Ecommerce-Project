@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/sheet';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState, useRef } from 'react';
 import { useShoppingCart } from 'use-shopping-cart';
 
 export default function ShoppingCartModal() {
@@ -26,7 +27,7 @@ export default function ShoppingCartModal() {
     redirectToCheckout: (sessionId?: string) => Promise<any>;
   } = useShoppingCart();
 
-  // console.log(cartDetails);
+  console.log(cartDetails);
 
   function handleCheckout() {}
 
@@ -55,6 +56,7 @@ export default function ShoppingCartModal() {
                     image={product.image as string}
                     quantity={product.quantity}
                     id={product.id}
+                    docID={product.docID}
                   />
                 ))}
               </ul>
@@ -86,12 +88,14 @@ function ProductCard({
   image,
   quantity,
   id,
+  docID,
 }: {
   name: string;
   price: number;
   image: string;
   quantity: number;
   id: string;
+  docID: string;
 }) {
   const {
     removeItem,
@@ -100,10 +104,54 @@ function ProductCard({
     removeItem: (id: string) => undefined;
     setItemQuantity: (id: string, quantity: number) => undefined;
   } = useShoppingCart();
+  //how many options will be displayed in the select dropdown
+  //default val will be 10 or < 10 if the quantity in stock is
+  const [optionRange, setOptionRange] = useState<number>(10);
+  //the quantity that will be displayed in the select dropdown
+  const [displayedQuantity, setDisplayedQuantity] = useState<number>(quantity);
+  const firstRender = useRef(true);
+  useEffect(() => {
+    (async () => {
+      const response = await fetch('/sanity/api', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'quantity',
+          product: { docID: docID },
+        }),
+        cache: 'no-store',
+      });
+      const { count: inventoryQuantity }: { count: number } =
+        await response.json();
+      /* If the quantity on hand is <= 10, the option range
+        will equal inventoryQuantity so a user cannot select more than available. 
+      */
+      if (inventoryQuantity <= 10 && inventoryQuantity !== -1) {
+        setOptionRange(inventoryQuantity);
+        /* Ensure that the displayed quantity is not greater than the 
+          amount on hand. Update the quanity of product with id in the cart
+          to ensure the reduced quantity is reflected in the cart state */
+        if (displayedQuantity > inventoryQuantity) {
+          setDisplayedQuantity(inventoryQuantity);
+          setItemQuantity(id, inventoryQuantity);
+        }
+      }
+    })();
+    /* don't set displayedQuantity on the first render (it's already been initialized)
+    update displayedQuantity on changes to quantity (the quantity in the cart state)
+    due to the select option */
+    if (!firstRender.current) {
+      setDisplayedQuantity(quantity);
+    } else {
+      firstRender.current = false;
+    }
+  });
 
   const options = [];
-  for (let quantity = 1; quantity <= 10; ++quantity)
-    options.push(<option value={quantity}>{quantity}</option>);
+  for (let value = 1; value <= optionRange; ++value)
+    options.push(<option value={value}>{value}</option>);
 
   return (
     <li className="flex py-6">
@@ -131,12 +179,13 @@ function ProductCard({
             >
               Quantity
             </label>
+
             <select
               onChange={(e) => {
                 setItemQuantity(id, parseInt(e.target.value, 10));
               }}
               id="location"
-              value={quantity}
+              value={displayedQuantity}
               className="ml-2 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 hover:cursor-pointer"
             >
               {options}
