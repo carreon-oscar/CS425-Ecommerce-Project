@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import EmailTemplate from '@/app/_components/email-template';
+import { incQuantity } from '../sanity-helpers';
 
 const stripe = require('stripe')(process.env.NEXT_SECRET_STRIPE_KEY);
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -63,7 +64,7 @@ export async function POST(request: Request) {
       break;
     }
     case 'checkout.session.expired': {
-      // const sessionId = event.data.object.id;
+      const sessionId = event.data.object.id;
       // const prodArray = [];
       // // Retrieve the line items from the checkout session using auto pagination
       // for await (const product of stripe.checkout.sessions.listLineItems(
@@ -72,7 +73,16 @@ export async function POST(request: Request) {
       // )) {
       //   prodArray.push(product);
       // }
-      //when a session expires, loop through each product and add the quantity back into sanity
+      const checkoutSession = await stripe.checkout.sessions.retrieve(
+        sessionId
+      );
+      const docIDs: { docID: string; quantity: number }[] = JSON.parse(
+        checkoutSession.metadata.products
+      );
+      //when a session expires, loop through each product and return the product back into inventory
+      for (const product of docIDs) {
+        await incQuantity(product.docID, product.quantity);
+      }
       console.log('the session has expired');
       // console.log(prodArray);
       break;

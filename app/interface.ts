@@ -46,3 +46,30 @@ export interface CatLinkProps {
   handleDropDownExit: (status: boolean) => void;
   linkRef: string;
 }
+
+export interface CartDetailsProduct {
+  name: string;
+  description: string;
+  id: string;
+  price: number;
+  currency: string;
+  image: string;
+  price_id: string;
+  docID: string;
+  quantity: number;
+  value: number;
+  price_data: any;
+  product_data: any;
+  formattedValue: string;
+  formattedPrice: string;
+}
+
+export interface incrementAction {
+  type: 'increment';
+  product: { docID: string; quantity: number };
+}
+
+export interface quantityAction {
+  type: 'quantity';
+  product: { docID: string };
+}

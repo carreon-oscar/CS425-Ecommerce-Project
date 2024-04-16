@@ -2,6 +2,9 @@ import AddToBag from '@/app/_components/add-to-bag';
 import ImageGallery from '@/app/_components/image-gallery';
 import { CompleteProduct } from '@/app/interface';
 import { client } from '@/app/lib/santiy';
+import { quantity } from '@/app/stripe/sanity-helpers';
+import { Suspense } from 'react';
+import { Loader } from 'lucide-react';
 
 async function getData(slug: string) {
   //query the a product with the given slug (slug is passed into the url)
@@ -66,17 +69,9 @@ export default async function ProductPage({
                   L
                 </div>
               </div>
-              {/* Pass product information for the given product page to update the cart state*/}
-              <AddToBag
-                currency="USD"
-                description={data.description}
-                image={data.images[0]}
-                name={data.name}
-                price={data.price}
-                key={data._id}
-                price_id={data.price_id}
-                _id={data._id}
-              />
+              <Suspense fallback={<Loading />}>
+                <Button data={data} />
+              </Suspense>
               <h3 className="text-md text-gray-500">{data.description}</h3>
             </div>
           </div>
@@ -85,3 +80,53 @@ export default async function ProductPage({
     </div>
   );
 }
+
+function Loading() {
+  return (
+    <div className="bg-stone-800 text-slate-100 rounded-2xl py-2 mt-2 w-full mb-2 flex justify-center">
+      <Loader className="animate-spin" />
+    </div>
+  );
+}
+
+async function Button({ data }: { data: CompleteProduct }) {
+  const count = await quantity(data._id);
+  return (
+    <>
+      {/* if an error occured with quantity() or if stock is 0 */}
+      {count === 0 || count === -1 ? (
+        <div className="bg-stone-800 text-slate-100 rounded-2xl py-2 mt-2 w-full mb-2 text-center select-none">
+          Out of Stock
+        </div>
+      ) : count <= 10 ? (
+        /* Pass product information for the given product page to update the
+        cart state*/
+        <>
+          <AddToBag
+            currency="USD"
+            description={data.description}
+            image={data.images[0]}
+            name={data.name}
+            price={data.price}
+            key={data._id}
+            price_id={data.price_id}
+            _id={data._id}
+          />
+          <div className="text-red-500">Only {count} left in stock.</div>
+        </>
+      ) : (
+        <AddToBag
+          currency="USD"
+          description={data.description}
+          image={data.images[0]}
+          name={data.name}
+          price={data.price}
+          key={data._id}
+          price_id={data.price_id}
+          _id={data._id}
+        />
+      )}
+    </>
+  );
+}
+export const dynamic = 'force-dynamic';

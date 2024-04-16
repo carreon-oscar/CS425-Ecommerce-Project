@@ -3,38 +3,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { incQuantity } from '../sanity-helpers';
-import { useShoppingCart } from 'use-shopping-cart';
 
 export default function StripeError() {
   const [count, setCount] = useState(5);
   const router = useRouter();
   const timerID = useRef<NodeJS.Timeout>();
-  const firstRender = useRef(true);
-  const { cartDetails }: { cartDetails: {} } = useShoppingCart();
-  useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      (async () => {
-        const products: { docID: string; quantity: number }[] =
-          Object.values(cartDetails);
-        for (const product of products) {
-          //return the the products back into inventory
-          await fetch('/sanity/api', {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              type: 'increment',
-              product: { docID: product.docID, quantity: product.quantity },
-            }),
-            cache: 'no-store',
-          });
-        }
-      })();
-    }
 
+  useEffect(() => {
     timerID.current = setInterval(() => {
       setCount((prevCount) => prevCount - 1);
     }, 1000);
@@ -51,7 +26,8 @@ export default function StripeError() {
   return (
     <div className="flex flex-col justify-center items-center my-auto">
       <h2 className="font-semibold text-2xl">
-        Payment Error, something went wrong...
+        An error occured during checkout: an item in your cart was either is now
+        unav
       </h2>
 
       <div>

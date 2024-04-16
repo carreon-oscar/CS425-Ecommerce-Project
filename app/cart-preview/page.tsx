@@ -1,8 +1,7 @@
 'use client';
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useShoppingCart } from 'use-shopping-cart';
-
 export default function CartPreview() {
   const {
     cartCount,
@@ -12,50 +11,53 @@ export default function CartPreview() {
     useShoppingCart();
 
   return (
-    <div className="max-w-2xl lg:max-w-7xl w-full mx-auto mb-4">
-      <div className="flex">
-        <div className="grow-[3] mr-4 bg-gray-100 p-2">
-          <div className="text-2xl font-semibold border-b mb-4 pb-2 border-gray-200">
-            Your Bag
+    <>
+      <div className="max-w-2xl lg:max-w-7xl w-full mx-auto mb-4">
+        <div className="flex">
+          <div className="grow-[3] mr-4 bg-gray-100 p-2">
+            <div className="text-2xl font-semibold border-b mb-4 pb-2 border-gray-200">
+              Your Bag
+            </div>
+            {cartCount > 0 ? (
+              <ul className="-my-6 divide-y divide-gray-200">
+                {/* shape of product object defined in addItem() documentation */}
+                {Object.values(cartDetails).map((product: any) => (
+                  <Product
+                    key={product.id}
+                    name={product.name}
+                    price={product.price}
+                    image={product.image as string}
+                    quantity={product.quantity}
+                    id={product.id}
+                    docID={product.docID}
+                  />
+                ))}
+              </ul>
+            ) : (
+              <div>There are currently no items in your bag</div>
+            )}
           </div>
-          {cartCount > 0 ? (
-            <ul className="-my-6 divide-y divide-gray-200">
-              {/* shape of product object defined in addItem() documentation */}
-              {Object.values(cartDetails).map((product: any) => (
-                <Product
-                  key={product.id}
-                  name={product.name}
-                  price={product.price}
-                  image={product.image as string}
-                  quantity={product.quantity}
-                  id={product.id}
-                />
-              ))}
-            </ul>
-          ) : (
-            <div>There are currently no items in your bag</div>
-          )}
-        </div>
-        <div className="grow bg-gray-200 p-4">
-          <div className="text-lg">
-            Subtotal ({cartCount} items):{' '}
-            <span className="font-bold">${totalPrice}</span>
+          <div className="grow bg-gray-200 p-4">
+            <div className="text-lg">
+              Subtotal ({cartCount} items):{' '}
+              <span className="font-bold">${totalPrice}</span>
+            </div>
+            <CheckoutSubmit
+              action="stripe/api"
+              method="POST"
+              cartDetails={cartDetails}
+              title="Checkout"
+            />
+            <CheckoutSubmit
+              action="coinbase/api"
+              method="POST"
+              cartDetails={cartDetails}
+              title="Checkout with crypto"
+            />
           </div>
-          <CheckoutSubmit
-            action="stripe/api"
-            method="POST"
-            cartDetails={cartDetails}
-            title="Checkout"
-          />
-          <CheckoutSubmit
-            action="coinbase/api"
-            method="POST"
-            cartDetails={cartDetails}
-            title="Checkout with crypto"
-          />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -97,20 +99,76 @@ function Product({
   image,
   quantity,
   id,
+  docID,
 }: {
   name: string;
   price: number;
   image: string;
   quantity: number;
   id: string;
+  docID: string;
 }) {
   const { removeItem, setItemQuantity } = useShoppingCart();
+
+  //how many options will be displayed in the select dropdown
+  //default val will be 10 or < 10 if the quantity in stock is
+  const [optionRange, setOptionRange] = useState<number>(10);
+  //the quantity that will be displayed in the select dropdown
+  const [displayedQuantity, setDisplayedQuantity] = useState<number>(quantity);
+  const firstRender = useRef(true);
+  useEffect(() => {
+    async function checkQuantity() {
+      const response = await fetch('/sanity/api', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'quantity',
+          product: { docID: docID },
+        }),
+        cache: 'no-store',
+      });
+      const { count: inventoryQuantity }: { count: number } =
+        await response.json();
+      /* If the quantity on hand is <= 10, the option range
+        will equal inventoryQuantity so a user cannot select more than available. 
+      */
+      if (inventoryQuantity <= 10 && inventoryQuantity !== -1) {
+        setOptionRange(inventoryQuantity);
+        /* Update the displayed quantity if its greater than the 
+          amount on hand. Update the quanity of product with id in the cart
+          to ensure the reduced quantity is reflected in the cart state */
+        if (displayedQuantity > inventoryQuantity) {
+          setDisplayedQuantity(inventoryQuantity);
+          setItemQuantity(id, inventoryQuantity);
+        }
+      }
+    }
+    /* don't set displayedQuantity on the first render (it's already been initialized)
+    update displayedQuantity on changes to quantity (the quantity in the cart state)
+    due to the select option */
+    if (!firstRender.current) {
+      setDisplayedQuantity(quantity);
+    } else {
+      //on first render, we want to cross check with the inventory that's in stock
+      //right away otherwise we wouldn't check for 2 seconds until the interval below is called
+      checkQuantity();
+      firstRender.current = false;
+    }
+    const interval: NodeJS.Timeout = setInterval(checkQuantity, 2000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [quantity, displayedQuantity]);
+
   const options = [];
-  for (let quantity = 1; quantity <= 10; ++quantity)
-    options.push(<option value={quantity}>{quantity}</option>);
+  for (let value = 1; value <= optionRange; ++value)
+    options.push(<option value={value}>{value}</option>);
 
   return (
-    <li className="flex justify-between py-6">
+    <li key={id} className="flex justify-between py-6">
       <div className="h-40 w-40 overflow-hidden rounded-md border border-gray-200">
         <Image
           src={image as string}
@@ -126,6 +184,11 @@ function Product({
             <p>${price}</p>
           </div>
           <p className="text-sm text-gray-500">Color</p>
+          {optionRange > 0 && optionRange <= 10 && (
+            <div className="text-red-500 text-sm">
+              Only {optionRange} left in stock.
+            </div>
+          )}
         </div>
         <div className="flex flex-1 items-end justify-between text-sm">
           <div>
@@ -140,7 +203,8 @@ function Product({
                 setItemQuantity(id, parseInt(e.target.value, 10));
               }}
               id="location"
-              value={quantity}
+              value={displayedQuantity}
+              defaultValue={1}
               className="ml-2 rounded-md border-0 py-1.5 px-2 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 hover:cursor-pointer"
             >
               {options}
@@ -157,3 +221,5 @@ function Product({
     </li>
   );
 }
+
+export const dynamic = 'force-dynamic';

@@ -1,10 +1,8 @@
 import { ProductStripe } from '@/app/interface';
 import { redirect } from 'next/navigation';
+import { decQuantity } from '../sanity-helpers';
+import { CartDetailsProduct } from '@/app/interface';
 const stripe = require('stripe')(process.env.NEXT_SECRET_STRIPE_KEY);
-
-interface Product {
-  quantity: number;
-}
 
 export async function POST(request: Request) {
   //convert the request body into FormData
@@ -12,18 +10,19 @@ export async function POST(request: Request) {
   const cartDetails = JSON.parse(formData.get('cartDetails') as string);
 
   const lineItems = [];
+  const docIDs = [];
   const rates = await createTaxRates();
-  for (const product of Object.values<Product & ProductStripe>(cartDetails)) {
+  for (const product of Object.values<CartDetailsProduct>(cartDetails)) {
     lineItems.push({
       price: product.price_id,
       quantity: product.quantity,
       dynamic_tax_rates: rates.map((rate) => rate.id),
     });
+    docIDs.push({ docID: product.docID, quantity: product.quantity });
+    //remove the product from inventory
+    console.log(await decQuantity(product.docID, product.quantity));
   }
-
-  //for each item being checked out, is the quantity available in sanity.
-  //if not, redirect user to main page,
-
+  console.log(docIDs);
   let session;
   const shipping_rates = {
     free: 'shr_1P3MojFa2BWD7O8S4kFs0wB1',
@@ -46,9 +45,10 @@ export async function POST(request: Request) {
         enabled: true,
       },
       line_items: lineItems,
+      metadata: { products: JSON.stringify(docIDs) },
       mode: 'payment',
-      success_url: `${process.env.PRODUCTION_URL}/stripe/success/?success=true`,
-      cancel_url: `${process.env.PRODUCTION_URL}/stripe/error/?canceled=true`,
+      success_url: `${process.env.DEVELOPMENT_URL}/stripe/success/?success=true`,
+      cancel_url: `${process.env.DEVELOPMENT_URL}/stripe/error/?canceled=true`,
       expires_at: expiresAt(0.5),
     });
   } catch (err) {
