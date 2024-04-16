@@ -14,7 +14,7 @@ export const writeClient = createClient({
   projectId: '6uopnzeq',
   dataset: 'production',
   apiVersion: '2022-03-25',
-  useCdn: true,
+  useCdn: false,
   token: process.env.SANITY_TOKEN,
 });
 
