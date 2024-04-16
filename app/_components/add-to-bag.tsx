@@ -12,6 +12,7 @@ export default function AddToBag({
   currency,
   image,
   price_id,
+  _id,
 }: ProductStripe) {
   const { addItem, handleCartClick, cartDetails } = useShoppingCart();
 
@@ -24,6 +25,7 @@ export default function AddToBag({
     currency: currency,
     image: urlFor(image).url(),
     price_id: price_id,
+    docID: _id,
   };
 
   function handleBagClick() {

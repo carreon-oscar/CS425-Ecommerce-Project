@@ -75,6 +75,7 @@ export default async function ProductPage({
                 price={data.price}
                 key={data._id}
                 price_id={data.price_id}
+                _id={data._id}
               />
               <h3 className="text-md text-gray-500">{data.description}</h3>
             </div>
