@@ -112,7 +112,7 @@ function Product({
 
   //how many options will be displayed in the select dropdown
   //default val will be 10 or < 10 if the quantity in stock is
-  const [optionRange, setOptionRange] = useState<number>(10);
+  const [optionRange, setOptionRange] = useState<number>(11);
   //the quantity that will be displayed in the select dropdown
   const [displayedQuantity, setDisplayedQuantity] = useState<number>(quantity);
   const firstRender = useRef(true);
@@ -164,9 +164,8 @@ function Product({
   }, [quantity, displayedQuantity]);
 
   const options = [];
-  for (let value = 1; value <= optionRange; ++value)
+  for (let value = 1; value <= (optionRange < 11 ? optionRange : 10); ++value)
     options.push(<option value={value}>{value}</option>);
-
   return (
     <li key={id} className="flex justify-between py-6">
       <div className="h-40 w-40 overflow-hidden rounded-md border border-gray-200">

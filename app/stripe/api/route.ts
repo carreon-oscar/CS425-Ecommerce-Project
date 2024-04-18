@@ -20,9 +20,9 @@ export async function POST(request: Request) {
     });
     docIDs.push({ docID: product.docID, quantity: product.quantity });
     //remove the product from inventory
-    console.log(await decQuantity(product.docID, product.quantity));
+    await decQuantity(product.docID, product.quantity);
   }
-  console.log(docIDs);
+  // console.log(docIDs);
   let session;
   const shipping_rates = {
     free: 'shr_1P3MojFa2BWD7O8S4kFs0wB1',
@@ -47,8 +47,8 @@ export async function POST(request: Request) {
       line_items: lineItems,
       metadata: { products: JSON.stringify(docIDs) },
       mode: 'payment',
-      success_url: `${process.env.DEVELOPMENT_URL}/stripe/success/?success=true`,
-      cancel_url: `${process.env.DEVELOPMENT_URL}/stripe/error/?canceled=true`,
+      success_url: `${process.env.PRODUCTION_URL}/stripe/success/?success=true`,
+      cancel_url: `${process.env.PRODUCTION_URL}/stripe/error/?canceled=true`,
       expires_at: expiresAt(0.5),
     });
   } catch (err) {
