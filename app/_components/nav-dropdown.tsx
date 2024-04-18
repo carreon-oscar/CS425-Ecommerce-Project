@@ -4,24 +4,27 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { bgVariants, contentVariants, dropVariants } from '../variants';
 import CategoryLink from './category-link';
+import Link from 'next/link';
 
-const categories = {
+const categories: {men: React.ReactElement [][]; women: React.ReactElement [][]; featured: React.ReactElement [][];} = {
   men: [
-    ['Category 1', 'Category 2', 'Category 3'],
-    ['Category 4', 'Category 5', 'Category 6'],
-    ['Category 7', 'Category 8', 'Category 9'],
+    [<Link href="/men/men-shirts" key="/men/men-shirts">Shirts</Link>, <Link href="/men/men-shoes" key="/men/men-shoes">Shoes</Link>, <Link href="/men/men-shirts" key="/men/men-shirts">Shirts</Link>],
+    [<Link href="/men/men-t-shirts" key="/men/men-t-shirts">T-Shirts</Link>, <Link href="/men/men-t-shirts" key="/men/men-shirts">Shirts</Link>, <Link href="/men/men-shirts" key="/men/men-shirts">Shirts</Link>],
+    [<Link href="/men/men-jeans" key="/men/men-jeans">Jeans</Link>, <Link href="/men/jeans" key="/men/men-shirts">Shirts</Link>, <Link href="/men/men-shirts" key="/men/men-shirts">Shirts</Link>],
   ],
   women: [
-    ['Stuff 44', 'Stuff 44', 'Stuff 44'],
-    ['Stuff 44', 'Stuff 44', ''],
-    ['Stuff 44', 'Stuff 44', 'Stuff 44', 'Stuff 44'],
+    [<Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>, <Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>, <Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>],
+    [<Link href="/women/women-t-shirts" key="/women/women-t-shirts">T-Shirts</Link>, <Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>, <Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>],
+    [<Link href="/women/women-kurtas" key="/women/women-kurtas">Kurtas</Link>, <Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>, <Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>],
   ],
   featured: [
-    ['Stuff 55', 'Stuff 55', 'Stuff 55'],
-    ['Stuff 55', 'Stuff 55', 'Stuff 55'],
-    ['Stuff 55', 'Stuff 55', 'Stuff 55'],
+    [],
+    [],
+    [],
   ],
 };
+
+
 
 export default function NavLinks() {
   const [isDropDownVisible, setIsDropDownVisible] = useState(false);
@@ -141,7 +144,7 @@ function Dropdown({
 }
 
 function Category({ currentCat }: { currentCat: string }) {
-  let category: string[][] = [];
+  let category: React.ReactElement[][] = [];
   if (currentCat === 'men') {
     category = categories.men;
   } else if (currentCat === 'women') {
