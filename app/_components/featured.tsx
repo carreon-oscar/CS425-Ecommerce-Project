@@ -1,16 +1,49 @@
+import CTA from './cta';
 import FeaturedGrid from './featured-grid';
 import ImageCarousel from './image-carousel';
+import StaggerGrid from './stagger-grid';
 
 export default function Featured() {
+  const queryMen = `*[_type == "product" && category->name == "Men"][0...10] | order(_createdAt desc){
+    _id,
+    price,
+    name,
+    "slug": slug.current,
+    "categoryName": category->name,
+    "imageUrl": images[0].asset->url
+}`;
+  const queryWomen = `*[_type == "product" && category->name == "Women"][0...10] | order(_createdAt desc){
+  _id,
+  price,
+  name,
+  "slug": slug.current,
+  "categoryName": category->name,
+  "imageUrl": images[0].asset->url
+}`;
+
+  const queryMenTShirt = `*[_type == "product" && category->name == "Men" && subcategory->name == "Shoes"] | order(_createdAt desc){
+    _id,
+    price,
+    name,
+    "slug": slug.current,
+    "categoryName": category->name,
+    "imageUrl": images[0].asset->url
+  }`;
   return (
     <>
-      <div className="mx-auto max-w-2xl lg:max-w-7xl flex justify-center m-3">
-        <h1 className="text-2xl font-medium border-b-2 border-black">
-          Featured Products
-        </h1>
-      </div>
-      <FeaturedGrid />
-      <ImageCarousel></ImageCarousel>
+      {/* <FeaturedGrid /> */}
+      <ImageCarousel
+        query={queryMen}
+        cta="Shop Men's Products"
+        href="/men"
+      ></ImageCarousel>
+      <CTA />
+      <ImageCarousel
+        query={queryWomen}
+        cta="Shop Women's Products"
+        href="/women"
+      ></ImageCarousel>
+      <StaggerGrid query={queryMenTShirt}></StaggerGrid>
     </>
   );
 }
