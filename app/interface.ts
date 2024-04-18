@@ -12,6 +12,7 @@ export interface Product {
   price: number;
   slug: string;
   categoryName: string;
+  subcategoryName: string;
   name: string;
 }
 

@@ -21,9 +21,9 @@ const sortOptions = [
   { name: 'Price: High to Low', href: '#', current: false },
 ];
 const subCategories = [
-  { name: 'Shirts', href: '/men/men-shirts' },
-  { name: 'T-Shirts', href: '/men/men-t-shirts' },
-  { name: 'Jeans', href: '/men/men-jeans' },
+  { name: 'Shirts', href: '/women/women-shirts' },
+  { name: 'T-Shirts', href: '/women/women-t-shirts' },
+  { name: 'Kurtas', href: '/women/women-kurtas' },
 ];
 const filters = [
   {
