@@ -1,11 +1,10 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { bgVariants, contentVariants, dropVariants } from '../variants';
 import CategoryLink from './category-link';
-import Link from 'next/link';
-import { Divide } from 'lucide-react';
 
 const categories: {
   men: React.ReactElement[][];
@@ -14,75 +13,43 @@ const categories: {
 } = {
   men: [
     [
-      <Link
-        href="/men/men-shirts"
-        key="/men/men-shirts"
-        className="text-gray-700"
-      >
+      <Link href="/men/men-shirts" key="/men/men-shirts">
         Shirts
       </Link>,
-      <Link
-        href="/men/men-t-shirts"
-        key="/men/men-t-shirts"
-        className="text-gray-700"
-      >
+      <Link href="/men/men-t-shirts" key="/men/men-t-shirts">
         T-Shirts
       </Link>,
     ],
     [
-      <Link
-        href="/men/men-jeans"
-        key="/men/men-jeans"
-        className="text-gray-700"
-      >
+      <Link href="/men/men-jeans" key="/men/men-jeans">
         Jeans
       </Link>,
     ],
     [
-      <Link
-        href="/men/men-shoes"
-        key="/men/men-shoes"
-        className="text-gray-700"
-      >
+      <Link href="/men/men-shoes" key="/men/men-shoes">
         Shoes
       </Link>,
     ],
   ],
   women: [
     [
-      <Link
-        href="/women/women-shirts"
-        key="/women/women-shirts"
-        className="text-gray-700"
-      >
+      <Link href="/women/women-shirts" key="/women/women-shirts">
         Shirts
       </Link>,
-      <Link
-        href="/women/women-t-shirts"
-        key="/women/women-t-shirts"
-        className="text-gray-700"
-      >
+      <Link href="/women/women-t-shirts" key="/women/women-t-shirts">
         T-Shirts
       </Link>,
-      <Link
-        href="/women/women-shirts"
-        key="/women/women-kurtas"
-        className="text-gray-700"
-      >
+      <Link href="/women/women-shirts" key="/women/women-kurtas">
         Kurtas
       </Link>,
     ],
     [
-      <Link href="#" key="/women/women-jeans" className="text-gray-700">
+      <Link href="#" key="/women/women-jeans">
         Jeans
       </Link>,
     ],
     [
-      <Link
-        href="/women/women-shoes"
-        key="/women/women-shoes"
-        className="text-gray-700"
-      >
+      <Link href="/women/women-shoes" key="/women/women-shoes">
         Shoes
       </Link>,
     ],
@@ -218,8 +185,11 @@ function Category({ currentCat }: { currentCat: string }) {
   }
 
   const headers = [
+    // eslint-disable-next-line react/jsx-key
     <div className="text-black font-semibold mb-1">Tops</div>,
+    // eslint-disable-next-line react/jsx-key
     <div className="text-black font-semibold mb-1">Bottoms</div>,
+    // eslint-disable-next-line react/jsx-key
     <div className="text-black font-semibold mb-1">Shoes</div>,
   ];
 
@@ -234,7 +204,10 @@ function Category({ currentCat }: { currentCat: string }) {
           <div className="flex flex-col" key={`row-${index}`}>
             {headers[index]}
             {categoryRow.map((categoryItem, subIndex) => (
-              <div key={`col-${subIndex}`} className="text-black">
+              <div
+                key={`col-${subIndex}`}
+                className="text-gray-700 hover:text-black hover:font-medium"
+              >
                 {categoryItem}
               </div>
             ))}
