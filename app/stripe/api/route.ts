@@ -20,9 +20,9 @@ export async function POST(request: Request) {
     });
     docIDs.push({ docID: product.docID, quantity: product.quantity });
     //remove the product from inventory
-    console.log(await decQuantity(product.docID, product.quantity));
+    await decQuantity(product.docID, product.quantity);
   }
-  console.log(docIDs);
+  // console.log(docIDs);
   let session;
   const shipping_rates = {
     free: 'shr_1P3MojFa2BWD7O8S4kFs0wB1',
