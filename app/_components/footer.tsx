@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { FaEthereum, FaStripe } from 'react-icons/fa';
 import { FaPaypal } from 'react-icons/fa6';
 import { GrBitcoin } from 'react-icons/gr';
@@ -9,6 +10,12 @@ export default function Footer() {
       <div className="text-sm text-gray-300">
         &#169;2023 Agent, Inc. All Rights Reserved.
       </div>
+      <Link
+        href="https://vito-ethan.github.io/agent/"
+        className="text-sm text-gray-300"
+      >
+        About us
+      </Link>
       <div className="hidden md:flex md:gap-x-4 md:items-center">
         <FaEthereum color="#716b94" size="1.5rem" />
         <div className="bg-white rounded-full">
