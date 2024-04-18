@@ -1,7 +1,6 @@
-import { ProductStripe } from '@/app/interface';
+import { CartDetailsProduct, ProductStripe } from '@/app/interface';
 import { redirect } from 'next/navigation';
 import { decQuantity } from '../sanity-helpers';
-import { CartDetailsProduct } from '@/app/interface';
 const stripe = require('stripe')(process.env.NEXT_SECRET_STRIPE_KEY);
 
 export async function POST(request: Request) {

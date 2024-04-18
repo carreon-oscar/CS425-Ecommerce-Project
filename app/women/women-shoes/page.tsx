@@ -2,8 +2,8 @@ import CategoryPage from '../../_components/category-page-women';
 import { Product } from '../../interface';
 import { client } from '../../lib/santiy';
 async function getData() {
-  // get women's kurtas
-  const query = `*[_type == "product" && category->name == "Women" && subcategory->name == "Kurtas"] | order(_createdAt desc){
+  // get women's shirts
+  const query = `*[_type == "product" && category->name == "Women" && subcategory->name == "Shoes"] | order(_createdAt desc){
     _id,
       price,
       name,
@@ -20,5 +20,5 @@ async function getData() {
 
 export default async function Women() {
   const data: Product[] = await getData();
-  return <CategoryPage catName="Women's Kurtas" data={data} />;
+  return <CategoryPage catName="Women's Shoes" data={data} />;
 }

@@ -24,6 +24,7 @@ const subCategories = [
   { name: 'Shirts', href: '/men/men-shirts' },
   { name: 'T-Shirts', href: '/men/men-t-shirts' },
   { name: 'Jeans', href: '/men/men-jeans' },
+  { name: 'Shoes', href: '/men/men-shoes' },
 ];
 const filters = [
   {
@@ -374,31 +375,6 @@ export default function CategoryPage({
                     </Link>
                   </div>
                 ))}
-                {data
-                  .map((product) => (
-                    <div key={product._id} className="group relative">
-                      <Link href={`/product/${product.slug}`}>
-                        <div className="w-full group-hover:opacity-75 group-hover:cursor-pointer lg:h-80">
-                          <Image
-                            src={product.imageUrl}
-                            alt="Product Image"
-                            className="w-full h-full object-cover object-center"
-                            width={300}
-                            height={300}
-                          />
-                        </div>
-                        <div className="mt-2">
-                          <h3 className="text-sm font-medium">
-                            {product.name}
-                          </h3>
-                          <h4 className="text-xs text-gray-700">
-                            ${product.price}
-                          </h4>
-                        </div>
-                      </Link>
-                    </div>
-                  ))
-                  .reverse()}
               </div>
             </div>
           </section>

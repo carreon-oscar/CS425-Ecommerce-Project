@@ -20,5 +20,5 @@ async function getData() {
 
 export default async function Women() {
   const data: Product[] = await getData();
-  return <CategoryPage catName="Women T-Shirts" data={data} />;
+  return <CategoryPage catName="Women's T-Shirts" data={data} />;
 }
