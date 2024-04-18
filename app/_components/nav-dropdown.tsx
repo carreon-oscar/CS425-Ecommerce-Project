@@ -5,26 +5,90 @@ import { useEffect, useState } from 'react';
 import { bgVariants, contentVariants, dropVariants } from '../variants';
 import CategoryLink from './category-link';
 import Link from 'next/link';
+import { Divide } from 'lucide-react';
 
-const categories: {men: React.ReactElement [][]; women: React.ReactElement [][]; featured: React.ReactElement [][];} = {
+const categories: {
+  men: React.ReactElement[][];
+  women: React.ReactElement[][];
+  featured: React.ReactElement[][];
+} = {
   men: [
-    [<Link href="/men/men-shirts" key="/men/men-shirts">Shirts</Link>, <Link href="/men/men-shoes" key="/men/men-shoes">Shoes</Link>, <Link href="/men/men-shirts" key="/men/men-shirts">Shirts</Link>],
-    [<Link href="/men/men-t-shirts" key="/men/men-t-shirts">T-Shirts</Link>, <Link href="/men/men-t-shirts" key="/men/men-shirts">Shirts</Link>, <Link href="/men/men-shirts" key="/men/men-shirts">Shirts</Link>],
-    [<Link href="/men/men-jeans" key="/men/men-jeans">Jeans</Link>, <Link href="/men/jeans" key="/men/men-shirts">Shirts</Link>, <Link href="/men/men-shirts" key="/men/men-shirts">Shirts</Link>],
+    [
+      <Link
+        href="/men/men-shirts"
+        key="/men/men-shirts"
+        className="text-gray-700"
+      >
+        Shirts
+      </Link>,
+      <Link
+        href="/men/men-t-shirts"
+        key="/men/men-t-shirts"
+        className="text-gray-700"
+      >
+        T-Shirts
+      </Link>,
+    ],
+    [
+      <Link
+        href="/men/men-jeans"
+        key="/men/men-jeans"
+        className="text-gray-700"
+      >
+        Jeans
+      </Link>,
+    ],
+    [
+      <Link
+        href="/men/men-shoes"
+        key="/men/men-shoes"
+        className="text-gray-700"
+      >
+        Shoes
+      </Link>,
+    ],
   ],
   women: [
-    [<Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>, <Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>, <Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>],
-    [<Link href="/women/women-t-shirts" key="/women/women-t-shirts">T-Shirts</Link>, <Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>, <Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>],
-    [<Link href="/women/women-kurtas" key="/women/women-kurtas">Kurtas</Link>, <Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>, <Link href="/women/women-shirts" key="/women/women-shirts">Shirts</Link>],
+    [
+      <Link
+        href="/women/women-shirts"
+        key="/women/women-shirts"
+        className="text-gray-700"
+      >
+        Shirts
+      </Link>,
+      <Link
+        href="/women/women-t-shirts"
+        key="/women/women-t-shirts"
+        className="text-gray-700"
+      >
+        T-Shirts
+      </Link>,
+      <Link
+        href="/women/women-shirts"
+        key="/women/women-kurtas"
+        className="text-gray-700"
+      >
+        Kurtas
+      </Link>,
+    ],
+    [
+      <Link href="#" key="/women/women-jeans" className="text-gray-700">
+        Jeans
+      </Link>,
+    ],
+    [
+      <Link
+        href="/women/women-shoes"
+        key="/women/women-shoes"
+        className="text-gray-700"
+      >
+        Shoes
+      </Link>,
+    ],
   ],
-  featured: [
-    [],
-    [],
-    [],
-  ],
+  featured: [[], [], []],
 };
-
-
 
 export default function NavLinks() {
   const [isDropDownVisible, setIsDropDownVisible] = useState(false);
@@ -153,6 +217,12 @@ function Category({ currentCat }: { currentCat: string }) {
     category = categories.featured;
   }
 
+  const headers = [
+    <div className="text-black font-semibold mb-1">Tops</div>,
+    <div className="text-black font-semibold mb-1">Bottoms</div>,
+    <div className="text-black font-semibold mb-1">Shoes</div>,
+  ];
+
   return (
     <div className="max-w-5xl mx-auto p-7">
       <motion.div
@@ -162,6 +232,7 @@ function Category({ currentCat }: { currentCat: string }) {
       >
         {category.map((categoryRow, index) => (
           <div className="flex flex-col" key={`row-${index}`}>
+            {headers[index]}
             {categoryRow.map((categoryItem, subIndex) => (
               <div key={`col-${subIndex}`} className="text-black">
                 {categoryItem}

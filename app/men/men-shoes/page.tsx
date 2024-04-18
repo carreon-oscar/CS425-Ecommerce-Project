@@ -20,5 +20,5 @@ async function getData() {
 
 export default async function Men() {
   const data: Product[] = await getData();
-  return <CategoryPage catName="Men Shoes" data={data} />;
+  return <CategoryPage catName="Men's Shoes" data={data} />;
 }
