@@ -1,15 +1,7 @@
+import { CustomerDetails } from '../interface';
+
 export default function EmailTemplate(
-  customer: {
-    name: string;
-    email: string;
-    last4: string;
-    card_brand: string;
-    amount_paid: string;
-    shipping_type: string;
-    shipping_cost: string;
-    tax_collected: string;
-    amount_subtotal: string;
-  },
+  customer: CustomerDetails,
   dateOfPurchase: string
 ) {
   return (

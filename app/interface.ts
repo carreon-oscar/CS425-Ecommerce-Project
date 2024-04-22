@@ -74,3 +74,20 @@ export interface quantityAction {
   type: 'quantity';
   product: { docID: string };
 }
+
+export interface CustomerDetails {
+  name: string;
+  email: string;
+  last4: string;
+  card_brand: string;
+  amount_paid: string;
+  shipping_type: string;
+  shipping_cost: string;
+  tax_collected: string;
+  amount_subtotal: string;
+}
+
+export interface CheckoutItem {
+  docID: string;
+  quantity: number;
+}
