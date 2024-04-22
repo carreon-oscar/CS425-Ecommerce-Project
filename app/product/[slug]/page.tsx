@@ -3,8 +3,8 @@ import ImageGallery from '@/app/_components/image-gallery';
 import { CompleteProduct } from '@/app/interface';
 import { client } from '@/app/lib/santiy';
 import { quantity } from '@/app/stripe/sanity-helpers';
-import { Suspense } from 'react';
 import { Loader } from 'lucide-react';
+import { Suspense } from 'react';
 
 async function getData(slug: string) {
   //query the a product with the given slug (slug is passed into the url)

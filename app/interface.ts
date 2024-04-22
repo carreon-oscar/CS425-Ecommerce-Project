@@ -91,3 +91,18 @@ export interface CheckoutItem {
   docID: string;
   quantity: number;
 }
+
+export interface FeauturedProduct {
+  _id: string;
+  categoryName: string;
+  imageUrl: string;
+  name: string;
+  price: number;
+  slug: string;
+}
+
+export interface DropdownLinks {
+  currentCat: string;
+  handleDropdownExit: (state: boolean) => void;
+  isDropDownVisible: boolean;
+}

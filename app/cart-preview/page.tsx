@@ -118,31 +118,35 @@ function Product({
   const firstRender = useRef(true);
   useEffect(() => {
     async function checkQuantity() {
-      const response = await fetch('/sanity/api', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          type: 'quantity',
-          product: { docID: docID },
-        }),
-        cache: 'no-store',
-      });
-      const { count: inventoryQuantity }: { count: number } =
-        await response.json();
-      /* If the quantity on hand is <= 10, the option range
+      try {
+        const response = await fetch('/sanity/api', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'quantity',
+            product: { docID: docID },
+          }),
+          cache: 'no-store',
+        });
+        const { count: inventoryQuantity }: { count: number } =
+          await response.json();
+        /* If the quantity on hand is <= 10, the option range
         will equal inventoryQuantity so a user cannot select more than available. 
       */
-      if (inventoryQuantity <= 10 && inventoryQuantity !== -1) {
-        setOptionRange(inventoryQuantity);
-        /* Update the displayed quantity if its greater than the 
+        if (inventoryQuantity <= 10 && inventoryQuantity !== -1) {
+          setOptionRange(inventoryQuantity);
+          /* Update the displayed quantity if its greater than the 
           amount on hand. Update the quanity of product with id in the cart
           to ensure the reduced quantity is reflected in the cart state */
-        if (displayedQuantity > inventoryQuantity) {
-          setDisplayedQuantity(inventoryQuantity);
-          setItemQuantity(id, inventoryQuantity);
+          if (displayedQuantity > inventoryQuantity) {
+            setDisplayedQuantity(inventoryQuantity);
+            setItemQuantity(id, inventoryQuantity);
+          }
         }
+      } catch (error) {
+        console.log('error when POST to /sanity/api: ', error);
       }
     }
     /* don't set displayedQuantity on the first render (it's already been initialized)

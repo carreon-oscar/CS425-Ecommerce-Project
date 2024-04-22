@@ -1,17 +1,17 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { useEffect, useState } from 'react';
 import type { Swiper as SwiperRef } from 'swiper';
-import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import { Navigation, Scrollbar } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FeauturedProduct, Product } from '../interface';
 import { client } from '../lib/santiy';
-import { Product } from '../interface';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 export default function ImageCarousel({
   query,
@@ -22,13 +22,13 @@ export default function ImageCarousel({
   cta: string;
   href: string;
 }) {
-  const [images, setImages] = useState<Product[] | null>(null);
+  const [images, setImages] = useState<FeauturedProduct[] | null>(null);
   const [controlledSwiper, setControlledSwiper] = useState<SwiperRef | null>(
     null
   );
   useEffect(() => {
     (async () => {
-      const data = await client.fetch(query);
+      const data: FeauturedProduct[] = await client.fetch(query);
       setImages(data);
     })();
   }, []);
@@ -73,15 +73,9 @@ export default function ImageCarousel({
             slidesPerGroup={3}
             spaceBetween={10}
             speed={400}
-            // pagination={{ dynamicBullets: true }}
             style={
               {
                 paddingBottom: '20px',
-                // '--swiper-pagination-color': '#292524',
-                // '--swiper-pagination-bullet-inactive-color': '#999999',
-                // '--swiper-pagination-bullet-inactive-opacity': '1',
-                // '--swiper-pagination-bullet-size': '10px',
-                // '--swiper-pagination-bullet-horizontal-gap': '6px',
               } as React.CSSProperties
             }
           >
