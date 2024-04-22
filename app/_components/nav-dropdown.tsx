@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { DropdownLinks } from '../interface';
 import { bgVariants, contentVariants, dropVariants } from '../variants';
 import CategoryLink from './category-link';
 
@@ -122,11 +123,7 @@ function Dropdown({
   currentCat,
   handleDropdownExit,
   isDropDownVisible,
-}: {
-  currentCat: string;
-  handleDropdownExit: (state: boolean) => void;
-  isDropDownVisible: boolean;
-}) {
+}: DropdownLinks) {
   //this state is used to update the categories being rendered.
   //the catToRender dependency will cause the animation key to update and cause
   //framer to perform an animation when mousing over different categories.

@@ -58,3 +58,20 @@ export const alertVariants = {
   visible: { opacity: 1, transition: { duration: 0.5 } },
   exit: { opacity: 0, transition: { duration: 0.5 } },
 };
+
+export const staggerVariants = {
+  initial: {
+    opacity: 0,
+    x: -20,
+  },
+  animate: {
+    type: 'tween',
+    opacity: 1,
+    x: 0,
+    transition: {
+      staggerChildren: 0.1,
+      ease: 'easeInOut',
+      duration: 0.75,
+    },
+  },
+};

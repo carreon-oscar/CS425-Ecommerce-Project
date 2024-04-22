@@ -1,5 +1,4 @@
-import { CartDetailsProduct, ProductStripe } from '@/app/interface';
-import { redirect } from 'next/navigation';
+import { CartDetailsProduct, CheckoutItem } from '@/app/interface';
 import { decQuantity } from '../sanity-helpers';
 const stripe = require('stripe')(process.env.NEXT_SECRET_STRIPE_KEY);
 
@@ -9,13 +8,14 @@ export async function POST(request: Request) {
   const cartDetails = JSON.parse(formData.get('cartDetails') as string);
 
   const lineItems = [];
-  const docIDs = [];
+  const docIDs: CheckoutItem[] = [];
   const rates = await createTaxRates();
+  const rateIDs = rates.map((rate) => rate.id);
   for (const product of Object.values<CartDetailsProduct>(cartDetails)) {
     lineItems.push({
       price: product.price_id,
       quantity: product.quantity,
-      dynamic_tax_rates: rates.map((rate) => rate.id),
+      dynamic_tax_rates: rateIDs,
     });
     docIDs.push({ docID: product.docID, quantity: product.quantity });
     //remove the product from inventory

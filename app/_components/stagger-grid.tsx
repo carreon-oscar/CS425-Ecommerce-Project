@@ -1,34 +1,18 @@
 'use client';
 import { motion } from 'framer-motion';
-import { Product } from '../interface';
-import { useEffect, useState } from 'react';
-import { client } from '../lib/santiy';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { FeauturedProduct } from '../interface';
+import { client } from '../lib/santiy';
+import { staggerVariants } from '../variants';
 
-const staggerVariants = {
-  initial: {
-    opacity: 0,
-    x: -20,
-  },
-  animate: {
-    type: 'tween',
-    opacity: 1,
-    x: 0,
-    transition: {
-      staggerChildren: 0.1,
-      ease: 'easeInOut',
-      duration: 0.75,
-    },
-  },
-};
-
-export default function StagerGrid({ query }: { query: string }) {
-  const [images, setImages] = useState<Product[] | null>(null);
+export default function StaggerGrid({ query }: { query: string }) {
+  const [images, setImages] = useState<FeauturedProduct[] | null>(null);
 
   useEffect(() => {
     (async () => {
-      const data = await client.fetch(query);
+      const data: FeauturedProduct[] = await client.fetch(query);
       setImages(data);
     })();
   }, []);
@@ -48,6 +32,7 @@ export default function StagerGrid({ query }: { query: string }) {
             <motion.li
               variants={staggerVariants}
               className="bg-purple-500 w-[300px] h-[300px]"
+              key={image._id}
             >
               <Link href={`/product/${image.slug}`}>
                 <div>

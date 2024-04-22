@@ -1,5 +1,6 @@
-import { Resend } from 'resend';
 import EmailTemplate from '@/app/_components/email-template';
+import { CheckoutItem, CustomerDetails } from '@/app/interface';
+import { Resend } from 'resend';
 import { incQuantity } from '../sanity-helpers';
 
 const stripe = require('stripe')(process.env.NEXT_SECRET_STRIPE_KEY);
@@ -76,7 +77,7 @@ export async function POST(request: Request) {
       const checkoutSession = await stripe.checkout.sessions.retrieve(
         sessionId
       );
-      const docIDs: { docID: string; quantity: number }[] = JSON.parse(
+      const docIDs: CheckoutItem[] = JSON.parse(
         checkoutSession.metadata.products
       );
       //when a session expires, loop through each product and return the product back into inventory
@@ -112,17 +113,7 @@ function getFormattedDate(): string {
   return formatter.format(new Date());
 }
 
-async function sendEmail(customer: {
-  name: string;
-  email: string;
-  last4: string;
-  card_brand: string;
-  amount_paid: string;
-  shipping_type: string;
-  shipping_cost: string;
-  tax_collected: string;
-  amount_subtotal: string;
-}) {
+async function sendEmail(customer: CustomerDetails) {
   try {
     const { data, error: err } = await resend.emails.send({
       from: 'onboarding@resend.dev',

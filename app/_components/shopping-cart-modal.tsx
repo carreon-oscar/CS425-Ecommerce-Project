@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/sheet';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useShoppingCart } from 'use-shopping-cart';
 
 export default function ShoppingCartModal() {
@@ -26,10 +26,6 @@ export default function ShoppingCartModal() {
     totalPrice: number;
     redirectToCheckout: (sessionId?: string) => Promise<any>;
   } = useShoppingCart();
-
-  console.log(cartDetails);
-
-  function handleCheckout() {}
 
   //sheet modal provided by shadcn component library
   return (

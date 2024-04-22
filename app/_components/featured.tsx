@@ -1,5 +1,4 @@
 import CTA from './cta';
-import FeaturedGrid from './featured-grid';
 import ImageCarousel from './image-carousel';
 import StaggerGrid from './stagger-grid';
 
@@ -31,7 +30,6 @@ export default function Featured() {
   }`;
   return (
     <>
-      {/* <FeaturedGrid /> */}
       <ImageCarousel
         query={queryMen}
         cta="Shop Men's Products"
