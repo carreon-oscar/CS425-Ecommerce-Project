@@ -55,7 +55,26 @@ const categories: {
       </Link>,
     ],
   ],
-  featured: [[], [], []],
+  featured: [
+    [
+      <Link href="/men/men-shirts" key="/men/men-shirts">
+        Shirts
+      </Link>,
+      <Link href="/men/men-t-shirts" key="/men/men-t-shirts">
+        T-Shirts
+      </Link>,
+    ],
+    [
+      <Link href="/men/men-jeans" key="/men/men-jeans">
+        Jeans
+      </Link>,
+    ],
+    [
+      <Link href="/men/men-shoes" key="/men/men-shoes">
+        Shoes
+      </Link>,
+    ],
+  ],
 };
 
 export default function NavLinks() {
